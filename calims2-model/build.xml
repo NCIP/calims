@@ -1,0 +1,212 @@
+<project name="calims2-model" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<description>
+        Build file to generate POJOS and datbase DDL Script
+    </description>
+
+	<property name="local.target.dir" value="${basedir}/target" />
+	<property name="classes.dir" value="${local.target.dir}/classes" />
+  <property name="src.dir" value="${basedir}/src/java"/>
+  <property name="generator-classes.dir" value="${local.target.dir}/generator-classes" />
+	<property name="resources.dir" value="${basedir}/src/resources" />
+  <property name="hibernateddl.dir" value="${basedir}/src/hibernateddl" />
+	<property name="generator-src.dir" value="${basedir}/src/generator"/>
+	<property name="unit-test.dir" value="${basedir}/test/unit"/>
+  <property name="lib.dir" location="${basedir}/lib"/>
+  <property name="ddl.dir" location="${basedir}/db/db-install"/>
+
+	<target name="ivy-settings" description="Uses global Ivy settings file for things such as resolver chains, common properties, etc. ">
+		<echo message="location of ivy settings for ${ant.project.name} : ${ivy.settings.location}" />
+		<ivy:settings file="${ivy.settings.location}" />
+	</target>
+
+	<target name="pre-clean" description="Deletes subproject's classes and other target directories which should not exist before starting the build ">
+		<delete dir="${local.target.dir}" />
+	</target>
+
+	<target name="init" depends="pre-clean" description="Creates subproject's local transient directories ">
+		<mkdir dir="${classes.dir}"/>
+	  <mkdir dir="${generator-classes.dir}"/>
+	  
+	</target>
+
+	<target name="compile" depends="init, ivy-settings" description="compile the java classes">
+		<ivy:retrieve conf="compile" sync="true"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" target="1.6" debug="true">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="description">
+		<copy todir="${classes.dir}" >
+			<fileset dir="${resources.dir}" />
+		</copy>
+		<jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${classes.dir}" />
+	</target>
+
+	<target name="test" depends="dist" description="Run the unit test and generate the report">
+		<ivy:retrieve conf="test" sync="true"/>
+
+		<cobertura-instrument datafile="${local.target.dir}/cobertura.ser" todir="${local.target.dir}/instrumented-classes">
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+		</cobertura-instrument>
+
+		<javac srcdir="${unit-test.dir}/java" destdir="${classes.dir}" source="1.6" target="1.6" debug="true">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+			</classpath>
+		</javac>
+
+		<junit showoutput="true" printsummary="yes" haltonfailure="no" errorProperty="test.error" failureProperty="test.failed" fork="yes" forkmode="perBatch">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${local.target.dir}/cobertura.ser" />
+			<classpath>
+				<fileset dir="${target.dir}/lib/test-cobertura">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${basedir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+				<pathelement location="${local.target.dir}/instrumented-classes" />
+				<pathelement location="${classes.dir}" />
+				<pathelement location="${unit-test.dir}/resources" />
+			</classpath>
+
+			<batchtest todir="${unit-test.report.dir}/junit">
+				<formatter type="xml" />
+				<fileset dir="${classes.dir}" includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+
+		<if>
+			<or>
+				<isset property="test.failed" />
+				<isset property="test.error"/>
+			</or>
+			<then>
+				<propertyfile file="${unit-test.report.dir}/junit/result.properties">
+					<entry key="${ant.project.name}.junit.failed" value="true" />
+				</propertyfile>
+			</then>
+		</if>
+	</target>
+
+	<target name="checkstyle" description="Generates a report of code convention violations.">
+		<checkstyle config="${common.dir}/checkstyle/MoxieCheckstyle.xml" failOnViolation="false">
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+			<fileset dir="${unit-test.dir}/java" includes="**/*.java"/>
+			<fileset dir="${local.target.dir}" includes="**/*.class"/>
+			<formatter type="plain"/>
+			<formatter type="xml" toFile="${checkstyle-test.report.dir}/${ant.project.name}_checkstyle_errors.xml"/>
+		</checkstyle>
+		<xslt taskname="checkstyle"
+	            in="${checkstyle-test.report.dir}/${ant.project.name}_checkstyle_errors.xml"
+	            out="${checkstyle-test.report.dir}/${ant.project.name}-CheckstyleReport.html"
+	            style="${common.dir}/checkstyle/checkstyle-simple.xsl" />
+	</target>
+
+	<target name="pmd">
+		<pmd shortfilenames="true">
+			<ruleset>rulesets/favorites.xml</ruleset>
+			<formatter type="html" toFile="${pmd-test.report.dir}/${ant.project.name}-PMDReport.html" linkPrefix="http://pmd.sourceforge.net/xref/"/>
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+			<fileset dir="${unit-test.dir}/java" includes="**/*.java"/>
+		</pmd>
+	</target>
+  
+  <target name="build-ddl-generate-type-sql" depends="compile" description="builds the ddl insert scripts for types">
+    <echo message=" Compiling TypeSQLGenerator class" />
+
+    <javac srcdir="${generator-src.dir}" destdir="${generator-classes.dir}" source="1.6" target="1.6" debug="true">
+              <classpath>
+                <fileset dir="${basedir}/lib" includes="*.jar" />
+                <fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+                <fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+                <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+              </classpath>
+    </javac>  
+    <echo message=" Running Type Generator Class" />
+        <java classname="gov.nih.nci.calims2.generator.TypeSQLGenerator" fork="true">
+          <arg value="${ddl.dir}/postgresql/type-priming-postgres.sql"/>
+                <classpath>
+                  <fileset dir="${basedir}/lib" includes="*.jar" />
+                  <fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+                  <fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+                  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+                  <dirset dir="${local.target.dir}">
+                          <include name="generator-classes"/>
+                  </dirset>
+
+                </classpath>
+        </java>
+    <copy file="${ddl.dir}/postgresql/type-priming-postgres.sql" tofile="${ddl.dir}/oraclesql/type-priming-oralce.sql"/>
+    <copy file="${ddl.dir}/postgresql/type-priming-postgres.sql" tofile="${ddl.dir}/mysqlsql/type-priming-mysql.sql"/>
+  </target>
+
+  <target name="build-ddl" depends="dist" description="builds the ddl scripts">
+    
+    <path id="toolslib">
+      <pathelement location="${classes.dir}"/>
+      <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+      <fileset dir="${lib.dir}" includes="drools*.jar" />
+    </path>
+
+    <echo message="start of ddl generation"/>
+    <echo message="${classes.dir}" />
+    <echo message="${hibernate-tools.dir}" />
+    
+    <for list="mysql,oracle,postgresql" param="db.type">
+      <sequential>
+        <echo message="Generation of main database for @{db.type}" />
+        <hibernatetool destdir="${ddl.dir}/@{db.type}">
+          <classpath refid="toolslib"/>
+          <annotationconfiguration configurationfile="${hibernateddl.dir}/hibernate.cfg.xml"
+                                   propertyfile="${hibernateddl.dir}/@{db.type}.properties"/>
+          <hbm2ddl create="true" delimiter=";" drop="false" export="false" format="true" haltonerror="true" 
+                   outputfilename="hibernate-@{db.type}.ddl" update="false" />
+        </hibernatetool>
+        <if>
+          <equals arg1="${ddl.bpm}" arg2="true" />
+          <then>
+            <echo message="Generation of bam database for @{db.type}" />
+            <hibernatetool destdir="${ddl.dir}/@{db.type}">
+              <classpath refid="toolslib"/>
+              <annotationconfiguration configurationfile="${hibernateddl.dir}/bam.cfg.xml"
+                                       namingstrategy="gov.nih.nci.calims2.dao.naming.BAMNamingStrategy"
+                                       propertyfile="${hibernateddl.dir}/@{db.type}.properties"/>
+              <hbm2ddl create="true" delimiter=";" drop="false" export="false" format="true" haltonerror="true" 
+                       outputfilename="bam-schema-@{db.type}.ddl" update="false" />
+            </hibernatetool>
+            
+            <echo message="Generation of bpm database for @{db.type}" />
+            <hibernatetool destdir="${ddl.dir}/@{db.type}">
+              <classpath refid="toolslib"/>
+              <annotationconfiguration configurationfile="${hibernateddl.dir}/bpm.cfg.xml"
+                                       namingstrategy="gov.nih.nci.calims2.dao.naming.BPMNamingStrategy"
+                                       propertyfile="${hibernateddl.dir}/@{db.type}.properties"/>
+              <hbm2ddl create="true" delimiter=";" drop="false" export="false" format="true" haltonerror="true" 
+                       outputfilename="bpm-schema-@{db.type}.ddl" update="false" />
+            </hibernatetool>
+            
+            <echo message="Generation of task database for @{db.type}" />
+            <hibernatetool destdir="${ddl.dir}/@{db.type}">
+              <classpath refid="toolslib"/>
+              <annotationconfiguration configurationfile="${hibernateddl.dir}/task.cfg.xml"
+                                       namingstrategy="gov.nih.nci.calims2.dao.naming.TaskNamingStrategy"
+                                       propertyfile="${hibernateddl.dir}/@{db.type}.properties"/>
+              <hbm2ddl create="true" delimiter=";" drop="false" export="false" format="true" haltonerror="true" 
+                       outputfilename="task-schema-@{db.type}.ddl" update="false" />
+            </hibernatetool>
+          </then>
+        </if>
+      </sequential>  
+    </for>  
+   
+  </target>
+
+</project>

@@ -1,0 +1,104 @@
+#whereClauseDiv {
+background:none repeat scroll 0 0 #DBD9D0;
+height:auto;
+max-width:600px;
+min-width:300px;
+}
+
+#mainEntityDiv {
+background:none repeat scroll 0 0 #DBD9D0;
+height:auto;
+width:680px;
+}
+
+#whereClauseDiv h2 {
+background:url("../../../images/bg_headerbar_tan.gif") repeat-x scroll 0 0 transparent;
+color:#E3E6EC;
+font-size:125%;
+font-weight:bold;
+margin:0;
+padding:5px;
+font-family:arial,helvetica,sans-serif;
+}
+
+#whereClauseDiv .boxpad {
+background:url("../../../images/bg_shadow_tanpanel_a.gif") repeat-x scroll 0 0 transparent;
+padding:15px 10px;
+}
+
+#whereClauseDiv .viewQueryTable {
+border:1px solid #E3F4EF;
+border-collapse:separate;
+width:100%;
+margin:auto;
+}
+
+#whereClauseDiv .editQueryTable {
+border:1px solid #E3F4EF;
+border-collapse:separate;
+width:100%;
+margin:auto;
+}
+
+#whereClauseDiv .viewQueryTable {
+border-collapse:separate;
+}
+
+#whereClauseDiv .editQueryTable {
+border-collapse:separate;
+}
+
+#whereClauseDiv .viewQueryTable td {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+}
+
+#whereClauseDiv .editQueryTable td {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+}
+
+#whereClauseDiv .viewQueryTable th {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+padding:3px;
+font-weight: bold;
+}
+
+#whereClauseDiv .editQueryTable th {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+font-weight: bold;
+}
+
+#mainEntityDiv h2 {
+background:url("../../../images/bg_headerbar_tan.gif") repeat-x scroll 0 0 transparent;
+color:#272727;
+font-size:125%;
+font-weight:bold;
+margin:0;
+padding:5px;
+font-family:arial,helvetica,sans-serif;
+}
+
+#clauseTableBody {}
+
+#clauseTableBody .operator {
+width:8em;
+}
+
+#clauseTableBody  .connector {
+width:6em;
+}

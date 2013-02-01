@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   <query name="gov.nih.nci.calims2.domain.common.Document.findByAccountId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where account.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByAntibodyId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByCarbohydrateId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByCellSpecimenId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByCollaborationId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where collaboration.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByContractId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where contract.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByCustomerRequestId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where customerRequest.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByEquipmentId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where equipment.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByFluidSpecimenId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByInvoiceId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where invoice.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByLipidId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByLocationId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where location.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByNamingConventionId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where namingConvention.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByNanomaterialId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByNucleicAcidId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByOrganizationId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where organization.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByPCRProductId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+    <query name="gov.nih.nci.calims2.domain.common.Document.findByPrimerId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByProjectId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where project.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByProteinId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByPersonId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where person.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByQuotationId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where quotation.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByServiceId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where service.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findBySmallMoleculeId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByStorageDeviceId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where equipment.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByTissueSpecimenId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Document.findByWholeOrganismId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Document where specimen.id = :id]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findByAccountId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where account.id = :id]]>
+  </query>
+  
+  <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findByCustomerRequestId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where customerRequest.id = :id]]>
+  </query>
+  
+  <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findBySpecimenId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where specimen.id = :id]]>
+  </query>
+  
+  <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findByLabSupplyId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where labSupply.id = :id]]>
+  </query>
+  
+  <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findByPersonId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where person.id = :id]]>
+  </query>
+  
+   <query name="gov.nih.nci.calims2.domain.common.ExternalIdentifier.findBySequenceId">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.ExternalIdentifier where sequence.id = :id]]>
+  </query>
+  
+ 
+  
+  <query name="gov.nih.nci.calims2.domain.common.Type.findByDataElementCollection">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Type where dataElementCollection = :dataElementCollection order by name]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.common.Type.findByDataElementCollections">
+    <![CDATA[from gov.nih.nci.calims2.domain.common.Type where dataElementCollection in (:dataElementCollections) order by name]]>
+  </query>
+</hibernate-mapping>

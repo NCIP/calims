@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <query name="gov.nih.nci.calims2.domain.report.Query.findQueriesByPersistentClassName">
+    <![CDATA[from gov.nih.nci.calims2.domain.report.Query where mainEntity = :mainEntity order by name]]>
+  </query>
+  <query name="gov.nih.nci.calims2.domain.report.FilledReport.findByReportId">
+    <![CDATA[from gov.nih.nci.calims2.domain.report.FilledReport where report.id = :reportId]]>
+  </query>
+</hibernate-mapping>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+        
+  <bean id="documentTable" class="gov.nih.nci.calims2.uic.descriptor.table.Table" p:id="documentTable">
+    <property name="columns">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="displayName" p:value="displayName" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="description" p:value="description"  />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="status" p:value="status" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="endPage" p:value="endPage" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="keywordCode" p:value="keywordCode" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="keywordText" p:value="keywordText" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="startPage" p:value="startPage" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="title" p:value="title" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="universalResourceLocator" p:value="universalResourceLocator" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="version" p:value="version" />
+      </list>
+    </property>
+    <property name="commands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="create" p:url="/common/document/create.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="back" p:url="/common/document/genericReturn.do" />
+        
+      </list>
+    </property>
+    <property name="itemCommands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:iconClass="edit.png" p:url="/common/document/edit.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="view" p:iconClass="view.png" p:url="/common/document/details.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="download" p:iconClass="downloadfile.jpg" p:url="/common/document/download.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="delete" p:iconClass="delete.png" p:url="/common/document/delete.do"  p:javascriptFunction="deleteDialog"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="externalIdentifierTable" class="gov.nih.nci.calims2.uic.descriptor.table.Table" p:id="externalIdentifierTable">
+    <property name="columns">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="displayName" p:value="displayName" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="description" p:value="description"  />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="status" p:value="status" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="source" p:value="source" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="value" p:value="value" />
+      </list>
+    </property>
+    <property name="commands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="create" p:url="/common/externalidentifier/create.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="back" p:url="/common/externalidentifier/genericReturn.do" />
+        
+      </list>
+    </property>
+    <property name="itemCommands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:iconClass="edit.png" p:url="/common/externalidentifier/edit.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="view" p:iconClass="view.png" p:url="/common/externalidentifier/details.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="delete" p:iconClass="delete.png" p:url="/common/externalidentifier/delete.do"  p:javascriptFunction="deleteDialog"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="typeTable" class="gov.nih.nci.calims2.uic.descriptor.table.Table" p:id="typeTable">
+    <property name="columns">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="displayName" p:value="displayName" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="description" p:value="description"  />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="dataElementCollection" p:value="dataElementCollection" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="status" p:value="status" />
+      </list>
+    </property>
+    <property name="commands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:url="/common/type/manage.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="create" p:url="/common/type/create.do" />
+      </list>
+    </property>
+    <property name="itemCommands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:iconClass="edit.png" p:url="/common/type/edit.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="view" p:iconClass="view.png" p:url="/common/type/details.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="delete" p:iconClass="delete.png" p:url="/common/type/delete.do"  p:javascriptFunction="deleteDialog"/>
+      </list>
+    </property>
+  </bean>
+      
+</beans>  

@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/jee 
+        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        >
+        
+  <bean id="nameValidator" class="gov.nih.nci.calims2.business.administration.namingconvention.NameValidator" >
+    <property name="genericDao" ref="genericDao" />
+  </bean>
+        
+  <bean id="accountService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Account." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.account.AccountValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="accountNumberService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.AccountNumber." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.accountnumber.AccountNumberValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>    
+  
+  <bean id="billingInformationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.BillingInformation." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.billinginformation.BillingInformationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="collaborationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Collaboration." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.collaboration.CollaborationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="contactInformationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.ContactInformation." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.contactinformation.ContactInformationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="contractService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Contract." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.contract.ContractValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="customerRequestService" class="gov.nih.nci.calims2.business.administration.customerservice.customerrequest.CustomerRequestServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.CustomerRequest." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.customerrequest.CustomerRequestValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="equipmentService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Equipment." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.equipment.EquipmentValidator">
+        <property name="nameValidator" ref="nameValidator"/>
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="invoiceService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Invoice." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.invoice.InvoiceValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="laboratoryService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Laboratory." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+            <!--<bean class="gov.nih.nci.calims2.security.csm.listener.administration.laboratory.LaboratoryCSMListener" p:csmProvider-ref="csmProvider" />
+            <bean class="gov.nih.nci.calims2.security.csm.listener.administration.laboratory.LaboratoryCSMListener2" />--> 
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.laboratory.LaboratoryValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+   <bean id="locationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Location." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.location.LocationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="namingConventionService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.NamingConvention." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.namingconvention.NamingConventionValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="organizationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Organization." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.organization.OrganizationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="personService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Person." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.person.PersonValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="postalAddressService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.PostalAddress." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.postaladdress.PostalAddressValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="quotationService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Quotation." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.quotation.QuotationValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="rateService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Rate." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+             <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.rate.RateValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+   <bean id="roleService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Role." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.role.RoleValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean> 
+  
+   <bean id="serviceService" class="gov.nih.nci.calims2.business.administration.customerservice.service.ServiceServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.Service." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="serviceItemService" ref="serviceItemService" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.service.ServiceValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="serviceItemService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.customerservice.ServiceItem." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+             <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.customerservice.serviceitem.ServiceItemValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="softwareService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Software." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="notesCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.software.SoftwareValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+   <bean id="storageDeviceService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.StorageDevice." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.storagedevice.StorageDeviceValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+   
+  <bean id="storageSpaceService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.StorageSpace." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.storagespace.StorageSpaceValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="telephoneNumberService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.TelephoneNumber." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.telephonenumber.TelephoneNumberValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="travelHistoryService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.inventory.TravelHistory." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.inventory.travelhistory.TravelHistoryValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="unitConverter" class="gov.nih.nci.calims2.business.administration.unit.JConvertAdapter" >
+    <property name="genericDao" ref="genericDao" />
+  </bean>
+  
+  <bean id="unitService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Unit." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+            <bean class="gov.nih.nci.calims2.business.administration.unit.UnitCRUDEventListener">
+              <property name="unitConverter" ref="unitConverter" />
+              <property name="unitService" ref="unitService" />
+            </bean>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.unit.UnitValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="wordService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.administration.Word." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.administration.word.WordValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+</beans>        

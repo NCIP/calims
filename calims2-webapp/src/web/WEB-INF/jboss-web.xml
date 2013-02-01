@@ -1,0 +1,17 @@
+<jboss-web>
+  <env-entry>
+    <env-entry-name>tempfiledir</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>@tempfiledir@</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>filesystemrootdir</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>@filesystemrootdir@</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>csmApplicationContext</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>@application.csmupt.context@</env-entry-value>
+  </env-entry>
+</jboss-web>

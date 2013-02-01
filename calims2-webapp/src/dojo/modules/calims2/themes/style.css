@@ -1,0 +1,398 @@
+html {
+  height: 100%;
+  /*margin-bottom: 1px;*/
+  overflow: auto;
+}
+
+form {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100%;
+  font-family: arial,helvetica,sans-serif;
+  line-height: 1.8em;
+  margin: 0px 0px 0px 0px;
+  font-size: 12px;
+  color: #010101;
+  background:#ffffff;
+}
+
+a:link,a:visited {
+  text-decoration: none;
+  font-weight: normal;
+  color: #010101;
+}
+
+a:hover {
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+input.button {
+  cursor: pointer;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+img {
+  border: 0 none;
+}
+
+.noPaddingContentPane {
+  padding: 0px !important;
+}
+
+.pageWithMenuContainer {
+  height:100%;
+  width: 100%;
+}
+
+.pageWithMenuHeader {
+  height: 95px;
+  background: url(../../../images/header_bg.jpg) top repeat-x;
+}
+
+.pageWithMenuMenu{
+/*text-indent:10px;*/
+}
+
+.pageWithMenuBody {
+/*text-indent:20px;*/
+  }
+
+.pageWithMenuFooter {
+  height: 70px;
+  background: url(../../../images/footer_top_bg.jpg) top repeat-x;
+  text-align: center;
+}
+
+.pageTitle {
+  width: 100%;
+  height: 33px;
+  text-indent:20px;
+  background: #414141 url(../../../images/title_bg.png) top no-repeat;
+  font-family: arial,helvetica,sans-serif;
+  font-size: 24px;
+  color: #fff;
+  line-height: 33px;
+}
+
+.imageIcon {
+  cursor: pointer;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.hidden {
+  display:none;
+}
+
+.requiredMarker {
+  color:#ff0000;
+}
+
+.fieldLabel {
+  font-weight: bold;
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+.fieldView {
+  min-width: 120px;
+  padding-right: 30px;
+  max-width: 250px;
+}
+
+.centeredBlock {
+  margin-left: auto;
+  margin-right: auto;
+}  
+
+.ip_holder {
+  padding: 5px 0 10px 0;
+}
+
+.logo {
+  width: 253px;
+  height: 75px;
+  float: left;
+  padding: 4px 4px 0 15px;
+}
+
+.logo_right {
+  float: right;
+  padding: 20px 10px 2px 20px;
+}
+
+.maincolumn_full .pageWithMenu_pageTitleLeft {
+  width: 98%;
+}
+
+.maincolumn {
+  background: url(../../../images/vr_separator.jpg) top right no-repeat;
+  width: 65%;
+}
+
+.maincolumn_home {
+  
+}
+
+.maincolumn_inner {
+  padding: 0 20px 0px 20px;
+}
+
+.rightcolumn {
+  text-align: center;
+}
+
+.rightcolumn .rightcolumn_inner {
+  width: auto;
+  padding: 0 10px 0 10px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.loginbox {
+  width:100%;
+  margin:10px 0;
+  float: left;
+}
+
+.loginForm_holder {
+  width: 100%%;
+  float: left;
+  padding: 0px 0px 10px 0px;
+}
+
+.log_left{
+  width:50%;
+  float:left;
+  background-color:#E3E3E3;
+  padding:10px;
+  font-family:arial,helvetica,sans-serif;
+  font-size:12px;
+}
+
+.log_left a {
+  color:#1394c8;
+  font-weight:bold;
+  line-height:20px;
+  text-decoration:none;
+}
+
+.log_left a:hover{
+  text-decoration:underline;
+}
+
+.tit_txt {
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  padding: 0 0 10px 0;
+  margin: 0;
+  border-bottom:#6E6B60 solid 1px;
+}
+
+.loginbox .ip_holder{
+  padding: 10px 0px 5px 0px;
+  width: 100%;
+}
+
+.log_rght {
+  width:40%;
+  float:left;
+  padding: 0 0 0 20px;
+}
+
+.log_hand1 {
+  margin:8px 0px 8px 5px;
+  width:100%;
+}
+
+.log_hand_link {
+  margin:0px 0px 0px 0px;
+  width:100%;
+}
+
+.inputbox_bg {
+  padding: 2px 5px;
+  height: 18px;
+  border: none;
+  background:url(../../../images/binput.jpg) repeat-x;
+  border:#dcdcdc solid 1px;
+  width:90%;
+}
+
+.lft_lab{
+  width:40%;
+  float:left;
+}
+
+.lft_rght{
+  width:60%;
+  float:left;
+}
+
+
+.login_btn {
+  width:20%;
+  float:right;
+}
+
+td.footerMenu {
+background-color:#5C5C5C;
+border-bottom:1px solid #CCCCCC;
+border-top:1px solid #CCCCCC;
+font-family:arial,helvetica,sans-serif;
+height:20px;
+width:100%;
+
+} 
+
+.bluetitle {
+  font-family: arial,helvetica,sans-serif;
+  font-size: 24px;
+  color: #6E6B60;
+  margin: 0;
+}
+.leftmodule{width: 310px;margin:5px 0 0 5px;}
+
+.maincol_footer .feat_list {
+  float: left;
+  width: 33%;
+}
+
+.leftmodule ul, .leftmodule li, .maincol_footer ul,.maincol_footer li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.leftmodule li,.maincol_footer li {
+  background: url(../../../images/arrow_red.jpg) 0px 7px no-repeat;
+  text-indent: 12px;
+}
+.leftmodule li {margin-left: 12px}
+
+.textcontent {
+  line-height: 100%;
+}
+
+.browsesearchwrapper {
+margin:20px;
+width:300px;
+float:left;
+}
+
+.browseboxhome {
+background:none repeat scroll 0 0 #DBD9D0;
+float:left;
+height:1%;
+width:300px;
+}
+
+.browseboxhome h2 {
+background:url("../../../images/bg_headerbar_tan.gif") repeat-x scroll 0 0 transparent;
+color:#E3E6EC;
+font-size:125%;
+font-weight:bold;
+margin:0;
+padding:5px;
+font-family:arial,helvetica,sans-serif;
+}
+
+.browseboxhome .boxpad {
+background:url("../../../images/bg_shadow_tanpanel_a.gif") repeat-x scroll 0 0 transparent;
+padding:15px 10px;
+}
+
+.boxpad {
+background:none repeat scroll 0 0 #FFFFFF;
+height:1%;
+padding:7px 7px 0 10px;
+}
+
+#browseboxhome .alttable {
+border:1px solid #E3F4EF;
+border-collapse:separate;
+width:100%;
+margin:auto;
+}
+
+.browseboxhome .alttable {
+border:1px solid #E3F4EF;
+border-collapse:separate;
+width:100%;
+margin:auto;
+}
+
+.alttable tr.odd {
+background:none repeat scroll 0 0 #D0CEC4;
+}
+
+#browseboxhome .alttable {
+border-collapse:separate;
+}
+
+.browseboxhome .alttable {
+border-collapse:separate;
+}
+
+#browseboxhome .alttable td {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+padding:3px;
+}
+
+.browseboxhome .alttable td {
+border-color:#E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+border-style:solid;
+border-width:1px 1px 2px;
+padding:4px;
+font-size:92%;
+padding:3px;
+}
+
+.pagehelp {
+width:auto;
+float:right;
+padding-right:15px;
+text-align:right;
+width:12em;
+font-size:12px;
+}
+
+.pagehelp a.help {
+display:block;
+float:right;
+background:url("../../../images/ico_help.gif") no-repeat scroll 0 transparent;
+color:#FFFFFF;
+text-decoration:none;
+}
+
+.user{
+  color: #800000;
+  font-weight:bold;
+}
+
+.pagelogout {
+width:auto;
+float:right;
+text-align:right;
+}
+
+.dijitMenuItem a.logout {
+/*background:url("../../../images/logout.png") no-repeat scroll  transparent;*/
+color:#414141;
+text-decoration:none;
+}
+

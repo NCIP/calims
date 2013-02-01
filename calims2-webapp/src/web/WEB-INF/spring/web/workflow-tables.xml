@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+
+ <bean id="projectTable" class="gov.nih.nci.calims2.uic.descriptor.table.Table" p:id="projectTable">
+    <property name="columns">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="displayName" p:value="displayName" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="description" p:value="description"  />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="status" p:value="status" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="type" p:value="type.name" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="isTemplate" p:value="isTemplate" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="actualStartDate" p:value="actualStartDate" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="actualEndDate" p:value="actualEndDate" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="expectedStartDate" p:value="expectedStartDate" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="expectedEndDate" p:value="expectedEndDate" />
+      </list>
+    </property>
+    <property name="commands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:url="/workflow/project/manage.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="create" p:url="/workflow/project/create.do" />
+      </list>
+    </property>
+    <property name="itemCommands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:iconClass="edit.png" p:url="/workflow/project/edit.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="view" p:iconClass="view.png" p:url="/workflow/project/details.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="delete" p:iconClass="delete.png" p:url="/workflow/project/delete.do"  p:javascriptFunction="deleteDialog"/>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="document" p:iconClass="document.jpg" p:url="/workflow/project/callFromList.do?subFlowId=13" />
+      </list>
+    </property>
+  </bean>
+  
+  <util:map id="taskCommandFilters">
+  </util:map>
+  
+  <bean id="taskTable" class="gov.nih.nci.calims2.uic.descriptor.table.Table" p:id="taskTable">
+    <property name="columns">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="name" p:value="name" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="subject" p:value="subject"  />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="description" p:value="description" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="status" p:value="status" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="priority" p:value="priority" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="skipable" p:value="skipable" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="actualOwner" p:value="actualOwner" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="createdBy" p:value="createdBy" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="createdOn" p:value="createdOn" p:format="SS"/>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="activationTime" p:value="activationTime" p:format="SS"/>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.table.Column" p:name="expirationTime" p:value="expirationTime" p:format="SS"/>
+      </list>
+    </property>
+    <property name="commands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="refresh" p:url="/workflow/tasklist/list.do" />
+        <!-- <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="create" p:url="/workflow/project/create.do" /> -->
+      </list>
+    </property>
+    <property name="itemCommands">
+      <list>
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="claim" p:iconClass="edit.png" p:url="/workflow/tasklist/claimTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="start" p:iconClass="edit.png" p:url="/workflow/tasklist/startTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="stop" p:iconClass="edit.png" p:url="/workflow/tasklist/stopTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="release" p:iconClass="edit.png" p:url="/workflow/tasklist/releaseTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="suspend" p:iconClass="edit.png" p:url="/workflow/tasklist/suspendTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="resume" p:iconClass="edit.png" p:url="/workflow/tasklist/resumeTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="skip" p:iconClass="edit.png" p:url="/workflow/tasklist/skipTask.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="complete" p:iconClass="edit.png" p:url="/workflow/tasklist/complete.do" />
+        <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="fail" p:iconClass="edit.png" p:url="/workflow/tasklist/fail.do" />
+      </list>
+    </property>
+  </bean>
+  
+ 
+ </beans>  

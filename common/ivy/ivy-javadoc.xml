@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="com.moxieinformatics" module="calims2-javadoc" />
+    <configurations>
+      <conf name="javadoc" />     
+    </configurations>
+    <dependencies>
+      <dependency org="commons-codec" name="commons-codec" rev="1.4" conf="javadoc->default" /> 
+      <dependency org="commons-lang" name="commons-lang" rev="2.5" conf="javadoc->default" />
+      <dependency org="javax.mail" name="mail" rev="1.4.2" conf="javadoc->default"/>
+      <dependency org="javax.servlet" name="jsp-api" rev="2.0" conf="javadoc->*"/>
+      <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="javadoc->default"/>
+      <dependency org="javax.validation" name="validation-api" rev="1.0.0.GA" conf="javadoc->default"/>
+      <dependency org="joda-time" name="joda-time" rev="1.6" conf="javadoc->master"/>
+      <dependency org="joda-time" name="joda-time-hibernate" rev="1.2" >
+        <exclude org="org.hibernate" name="hibernate" />
+      </dependency>
+      <dependency org="junit" name="junit" rev="4.8.1" conf="javadoc->default" />
+      <dependency org="ncicb" name="csm" rev="4.2" conf="javadoc->master">
+        <exclude org="org.hibernate" module="hibernate" />
+        <exclude org="apache" module="log4j" />
+        <exclude org="jakarta" module="commons-lang" />
+      </dependency>
+      <dependency org="org.hibernate" name="hibernate-annotations" rev="3.5.1-Final" conf="javadoc->default"/>
+      <dependency org="org.hibernate" name="hibernate-core" rev="3.5.1-Final" conf="javadoc->default"/>
+      <dependency org="org.hibernate" name="hibernate-validator" rev="4.0.2.GA" conf="javadoc->default" >
+        <exclude org="org.slf4j" />
+      </dependency>
+      <dependency org="org.springframework" name="spring-beans" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework" name="spring-context-support" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework" name="spring-orm" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework" name="spring-web" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework" name="spring-webmvc" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework.security" name="spring-security-acl" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework.security" name="spring-security-config" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework.security" name="spring-security-core" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework.security" name="spring-security-taglibs" rev="3.0.2.RELEASE" conf="javadoc->default" />
+      <dependency org="org.springframework.security" name="spring-security-web" rev="3.0.2.RELEASE" conf="javadoc->default" /> 
+      <dependency org="org.slf4j" name="slf4j-api" rev="1.6.0-RC0" conf="javadoc->default"/>
+    </dependencies> 
+</ivy-module>
+ 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:sec="http://www.springframework.org/schema/security" 
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/jee 
+        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.0.xsd" >
+        
+  <jee:jndi-lookup id="csmApplicationContext" jndi-name="java:comp/env/csmApplicationContext"/>
+        
+  <sec:http auto-config="true">
+    <sec:intercept-url pattern="/dojo*/**" filters="none"/>
+    <sec:intercept-url pattern="/login/*" filters="none"/>
+    <sec:intercept-url pattern="/static/**" filters="none"/>
+    <sec:intercept-url pattern="/exception/*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/create.do" access="ROLE_CUSTOMER_REQUEST_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/copy.do" access="ROLE_CUSTOMER_REQUEST_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/edit.do" access="ROLE_CUSTOMER_REQUEST_UPDATE" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/delete.do" access="ROLE_CUSTOMER_REQUEST_DELETE" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/approve.do" access="ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/disapprove.do" access="ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/labresponse.do" access="ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/submit.do" access="ROLE_CUSTOMER_REQUEST_CUSTOMER_ACCESS, ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/customerresponse.do" access="ROLE_CUSTOMER_REQUEST_CUSTOMER_ACCESS, ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/customerrequest/*.do" access="ROLE_CUSTOMER_REQUEST_ACCESS" /> 
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/create.do" access="ROLE_INQUIRY_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/copy.do" access="ROLE_INQUIRY_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/edit.do" access="ROLE_INQUIRY_UPDATE" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/delete.do" access="ROLE_INQUIRY_DELETE" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/approve.do" access="ROLE_INQUIRY_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/submit.do" access="ROLE_INQUIRY_CUSTOMER_ACCESS, ROLE_INQUIRY_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/inquiry/*.do" access="ROLE_INQUIRY_ACCESS" />  
+    
+    <sec:intercept-url pattern="/administration/customerservice/service/manage.do" access="ROLE_SERVICE_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/service/create.do" access="ROLE_SERVICE_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/service/edit.do" access="ROLE_SERVICE_UPDATE" />
+    <sec:intercept-url pattern="/administration/customerservice/service/delete.do" access="ROLE_SERVICE_DELETE" />
+    <sec:intercept-url pattern="/administration/customerservice/service/selectService.do" access="ROLE_SERVICE_CLONE" />
+    <sec:intercept-url pattern="/administration/customerservice/service/cloneService.do" access="ROLE_SERVICE_CLONE" />
+    <sec:intercept-url pattern="/administration/customerservice/service/*.do" access="ROLE_SERVICE_ACCESS,ROLE_CUSTOMER_REQUEST_CUSTOMER_ACCESS,ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    
+    <sec:intercept-url pattern="/administration/customerservice/serviceitem/addSpecimen.do" access="ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    <sec:intercept-url pattern="/administration/customerservice/serviceitem/create.do" access="ROLE_SERVICE_ITEM_CREATE" />
+    <sec:intercept-url pattern="/administration/customerservice/serviceitem/edit.do" access="ROLE_SERVICE_ITEM_UPDATE" />
+    <sec:intercept-url pattern="/administration/customerservice/serviceitem/delete.do" access="ROLE_SERVICE_ITEM_DELETE" />
+    <sec:intercept-url pattern="/administration/customerservice/serviceitem/*.do" access="ROLE_SERVICE_ITEM_ACCESS,ROLE_CUSTOMER_REQUEST_CUSTOMER_ACCESS,ROLE_CUSTOMER_REQUEST_MANAGER_ACCESS" />
+    
+    
+    <sec:intercept-url pattern="/administration/**/*.do" access="ROLE_ADMIN_ACCESS" />
+    <sec:intercept-url pattern="/common/document/*.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/common/**/*.do" access="ROLE_ADMIN_ACCESS" />
+    <sec:intercept-url pattern="/inventory/**/*.do" access="ROLE_ADMIN_ACCESS" />
+    <sec:intercept-url pattern="/report/**/*.do" access="ROLE_ADMIN_ACCESS" />
+    <sec:intercept-url pattern="/workflow/**/*.do" access="ROLE_ADMIN_ACCESS" />
+    <sec:intercept-url pattern="/home/changeAccess.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/home/changeTheme.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/home/home.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/home/underConstruction.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/menu/menu.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/index.jsp" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/hello/*.do" access="ROLE_USER_ACCESS" />
+    <sec:intercept-url pattern="/**" access="ROLE_BROL" />
+    <sec:anonymous enabled="true"/>
+    <sec:form-login always-use-default-target="false" authentication-failure-url="/login/loginError.do" 
+                    default-target-url="/home/home.do" login-page="/login/login.do" />
+    <sec:logout logout-success-url="/login/logout.do"/>
+    <sec:access-denied-handler error-page="/exception/accessDenied.do"/>
+    <sec:session-management invalid-session-url="/login/sessionTimeout.do">
+      <sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+    </sec:session-management>
+  </sec:http>
+  
+  <sec:authentication-manager>
+    <sec:authentication-provider ref="csmAuthenticationProvider" />
+  <!--
+    <sec:user-service> <sec:user name="viseem1" password="viseem1" authorities="ROLE_USER"/> <sec:user name="viseem2"
+    password="viseem2" authorities="ROLE_USER, ROLE_MANAGER"/> </sec:user-service> </sec:authentication-provider>
+  -->
+  </sec:authentication-manager>
+
+  <bean id="csmProvider" class="gov.nih.nci.calims2.security.csm.CSMProvider">
+    <property name="csmApplicationContext" ref="csmApplicationContext" />
+  </bean>
+
+  <bean id="csmUserDetailsService" class="gov.nih.nci.calims2.security.csm.authentication.CSMUserDetailsService">
+    <property name="csmProvider" ref="csmProvider" />
+  </bean>
+
+  <bean id="csmAuthenticationProvider" class="gov.nih.nci.calims2.security.csm.authentication.CSMAuthenticationProvider">
+    <property name="csmProvider" ref="csmProvider" />
+    <property name="csmUserDetailsService" ref="csmUserDetailsService" />
+  </bean>
+  
+  <sec:global-method-security>
+    <sec:protect-pointcut  expression="execution(* gov.nih.nci.calims2.business.hello.HelloWorld.*(..))" access="ROLE_USER_ACCESS"/>
+  </sec:global-method-security>
+
+</beans>        

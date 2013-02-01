@@ -1,0 +1,23 @@
+table.containerGridTable {
+  border-style:solid;
+  border-width:1px;
+}
+
+table.containerGridTable td.checkedCell {
+  background-color:#87CEEB;
+  height:16px;
+  min-width:16px;
+  text-align:center;
+}
+
+table.containerGridTable td.uncheckedCell {
+  background-color:#F7F7F7;
+  height:16px;
+  min-width:16px;
+  text-align:center;
+}
+
+table.containerGridTable th.headerCell {
+  text-align:center;
+}
+

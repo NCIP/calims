@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+  <session-factory name="java:hibernate/SessionFactory">
+  
+    <mapping resource="global.hbm.xml"/>
+  
+    <mapping class="gov.nih.nci.calims2.domain.administration.Adapter"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.BaseUnit"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Collaboration"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.ContactInformation"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Equipment"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.FileFormatSpecification"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.FileTransporter"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Laboratory"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Location"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.NamingConvention"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Organization"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Person"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.PostalAddress"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Quantity"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Role"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Software"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.StandardUnit"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.StorageDevice"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.StorageSpace"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.TelephoneNumber"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Unit"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.Word"/>
+        
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Account"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.AccountNumber"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.BillingInformation"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Contract"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.CustomerRequest"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Invoice"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Quotation"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Rate"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.Service"/>
+    <mapping class="gov.nih.nci.calims2.domain.administration.customerservice.ServiceItem"/>
+    
+    <mapping class="gov.nih.nci.calims2.domain.common.Document"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.ElectronicDocument"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.ExternalIdentifier"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.FileExtension"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.Notes"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.Parameter"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.SOP"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.Type"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.UniformResourceIdentifier"/>
+    
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.AirFiltration"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.AirFlow"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.Dessication"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.EnvironmentalCondition"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.Humidity"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.LightCycle"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.LightExposure"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.Temperature"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.UltravioletExposure"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.Ventilation"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.pH"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.percentCO2"/>
+    <mapping class="gov.nih.nci.calims2.domain.common.environmentalcondition.percentO2"/>
+
+    <mapping class="gov.nih.nci.calims2.domain.interfaces.AuditableEntity"/>
+
+    <mapping class="gov.nih.nci.calims2.domain.inventory.AdditionalOrganismName" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Antibody" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Antigen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.ArtificialSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.BioSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Biohazard" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Carbohydrate" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.CellSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.ChemicalCompound" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Container" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.ContainerType" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.ContainerSubcategory" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Coordinate" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Feature" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.FillPattern" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.FluidSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Hazard" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.LabSupply" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Layout" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Lipid" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.MolecularSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Nanomaterial" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.NucleicAcid" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.PCRProduct" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Primer" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Protein" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.SafetyCaution" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Sequence" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.SmallMolecule" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Specimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Strain" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Taxon" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.TissueSpecimen" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.WholeOrganism" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.Worksheet" />
+
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.APGARScore" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Age" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.AnimalBirthWeight" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BehavioralCharacteristics" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BioCharacteristics" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BirthDate" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BirthWeight" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BodyRegion" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.BreedingStatus" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Characteristics" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.ChemicalCharacteristics" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.CoatColor" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.DevelopmentalStage" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Diagnosis" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.DiseaseStage" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.DiseaseState" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.EthnicGroup" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.FamilyHistory" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Gender" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Generation" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.HearingDisorder" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.HearingTestResult" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.HistologicalGrade" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.LifeStatus" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Metastasis" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.NeonatalHearingImpairment" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.NutritionalRequirement" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.PathologyStatus" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.PhysicalCharacteristics" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Preservation" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Race" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Sex" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TissueSide" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TissueSite" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TravelHistory" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.Treatment" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TumorGrade" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TumorSize" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.characteristics.TumorStage" />
+    
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.BirthEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.CentrifugationEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.CheckInEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.CheckOutEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.CollectionEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.CollectionProtocolEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.DamageEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.DeathEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.DisposalEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.EmbeddedEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.Event" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.FeedingEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.FixationEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.FreezeEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.HarvestEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.MatingEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.MissingEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.PreservationEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.ReceiveEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.RetireEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.SendEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.ServiceEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.SterilizationEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.ThawEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.TransferInEvent" />
+    <mapping class="gov.nih.nci.calims2.domain.inventory.event.TransferOutEvent" />
+    
+    <mapping class="gov.nih.nci.calims2.domain.report.Clause"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Conjunction"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Disjunction"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.FilledReport"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Negation"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Query"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Report"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.ReportDesign"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Restriction"/>
+    <mapping class="gov.nih.nci.calims2.domain.report.Summary"/>
+    
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Approval"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.ApprovalPoll"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.BiochemicalReactionMixture"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.ConsensusApproval"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Data"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.DigitalSignature"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.WorkflowEvent"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Experiment"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.ExperimentalResult"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Finding"/>
+    
+    <mapping class="gov.nih.nci.calims2.domain.workflow.LaboratoryOperation"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Method"/>
+    
+    <mapping class="gov.nih.nci.calims2.domain.workflow.PrimaryData"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Procedure"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.ProcessedData"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Project"/> 
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Protocol"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.ReviewApproval"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.Run"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.SequentialApproval"/>
+    <mapping class="gov.nih.nci.calims2.domain.workflow.SimpleApproval"/>
+    
+    <!-- Mapping information for bam schema -->
+    <!--
+    <mapping resource="AuditLog.hbm.xml"/>
+    -->
+    
+    <!-- Mapping information for bpm schema -->
+    <!--
+    <mapping class="org.drools.persistence.processinstance.ProcessInstanceInfo"/>
+    <mapping class="org.drools.persistence.processinstance.ProcessInstanceEventInfo"/>
+    <mapping class="org.drools.persistence.processinstance.WorkItemInfo"/>
+    <mapping class="org.drools.persistence.processinstance.variabletypes.JPAPersistedVariable"/>
+    <mapping class="org.drools.persistence.processinstance.variabletypes.SerializablePersistedVariable"/>
+    <mapping class="org.drools.persistence.processinstance.variabletypes.VariableInstanceInfo"/>
+    <mapping class="org.drools.persistence.session.SessionInfo"/>
+    -->
+    
+    <!-- Mapping information for task service schema -->
+    <!--
+    <mapping class="org.drools.task.Attachment"/>
+    <mapping class="org.drools.task.BooleanExpression"/>
+    <mapping class="org.drools.task.Comment"/>
+    <mapping class="org.drools.task.Content"/>
+    <mapping class="org.drools.task.Deadline"/>
+    <mapping class="org.drools.task.Delegation"/>
+    <mapping class="org.drools.task.Escalation"/>
+    <mapping class="org.drools.task.Group"/>
+    <mapping class="org.drools.task.I18NText"/>
+    <mapping class="org.drools.task.Notification"/>
+    <mapping class="org.drools.task.EmailNotification"/>
+    <mapping class="org.drools.task.EmailNotificationHeader"/>
+    <mapping class="org.drools.task.PeopleAssignments"/>
+    <mapping class="org.drools.task.Reassignment"/>
+    <mapping class="org.drools.task.Status"/>
+    <mapping class="org.drools.task.Task"/>
+    <mapping class="org.drools.task.TaskData"/>
+    <mapping class="org.drools.task.SubTasksStrategy"/>
+    <mapping class="org.drools.task.OnParentAbortAllSubTasksEndStrategy"/>
+    <mapping class="org.drools.task.OnAllSubTasksEndParentEndStrategy"/>
+    <mapping class="org.drools.task.User"/>
+    -->
+    
+  </session-factory>
+</hibernate-configuration>

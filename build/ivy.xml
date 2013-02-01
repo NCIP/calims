@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+	<info organisation="org.apache" module="calims-ivy" />
+	<dependencies>
+		<dependency org="org.apache.ant" name="ant" rev="1.8.4 " />
+		<dependency org="ant-contrib" name="ant-contrib" rev="1.0b3 " />
+
+	</dependencies>
+
+</ivy-module>
+`

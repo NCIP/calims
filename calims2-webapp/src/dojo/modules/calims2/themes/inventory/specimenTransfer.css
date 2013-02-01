@@ -1,0 +1,17 @@
+.inventory-specimen-transfer .specimenTransferTable {
+  background: none repeat scroll 0 0 #DBD9D0;
+  border: 1px solid #E3F4EF;
+  border-collapse: separate;
+}
+
+.inventory-specimen-transfer .specimenTransferTable td,.inventory-specimen-transfer .specimenTransferTable th {
+  border-color: #E9E9E9 #B0B0B0 #B0B0B0 #E9E9E9;
+  border-style: solid;
+  border-width: 1px 1px 2px;
+  padding: 4px;
+  font-size: 92%;
+}
+
+.inventory-specimen-transfer .specimenTransferTable th {
+  font-weight: bold;
+}

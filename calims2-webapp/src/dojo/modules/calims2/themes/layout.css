@@ -1,0 +1,114 @@
+@CHARSET "UTF-8";
+
+.loginLayoutContainer, 
+.pageWithMenuContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.loginLayoutContainer .headerPane,
+.pageWithMenuContainer .headerPane {
+  padding: 0;
+  width: 100%;
+}
+
+.loginLayoutContainer .footerPane,
+.pageWithMenuContainer .footerPane {
+  padding: 0;
+  width: 100%;
+}
+
+.layout_margin {
+  margin: 20px;
+}
+
+.header {
+  width: 100%;
+  background: url(../../../images/header_bg_gradient.jpg) top no-repeat;
+  /*background: #6E6B60;*/
+  border-bottom: 1px solid #FFFFFF;
+  height: 95px;
+}
+
+.header .hdrBG {
+  background-color: #A90101;
+  width: 100%;
+  border: 0;
+  padding: 0px;
+}
+
+.header .ncilogo {
+  float: left;
+  height: 37px;
+  width: 283px;
+}
+
+.header .nihtag {
+  float: right;
+  height: 37px;
+  width: 295px;
+}
+
+.header .leftlogo {
+  width: 30%;
+  padding-left: 15px;
+  padding-top: 4px;
+}
+
+.header .rightlogo {
+  padding-right: 15px;
+  padding-top: 5px;
+}
+
+.footer {
+  padding: 0px;
+  height: 60px;
+}
+
+.footer .footerwrapper {
+  background: none repeat scroll 0 0 #FFFFFF;
+  clear: both;
+  font-size: 85%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.footer .footernavwrapper {
+  background: none repeat scroll 0 0 #5C5C5C;
+  border-bottom: 1px solid #CACACA;
+  border-top: 1px solid #CACACA;
+  height: 2em;
+  text-align: center;
+}
+
+.footer .footernav {
+  margin: 0 auto;
+  width: 600px;
+}
+
+.footer .footernav a {
+  border-left: 1px dotted #FFFFFF;
+  color: #FFFFFF;
+  display: block;
+  float: left;
+  line-height: 2em;
+  padding: 0 10px;
+}
+
+.footer .footernav a:hover {
+  background-color: #101010; /* darker */
+}
+
+.footer .footernav a.last {
+  border-right: 1px dotted #FFFFFF;
+}
+
+.footer .logocenter {
+  text-align: center;
+  height: auto;
+}
+
+#mainMenu span {
+  padding-left: 5px;
+  padding-right: 5px;
+}

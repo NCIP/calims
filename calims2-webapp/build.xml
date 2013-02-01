@@ -1,0 +1,176 @@
+<project name="calims2-webapp" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+	<property name="local.target.dir" value="${basedir}/target" />
+	<property name="src.dir" value="${basedir}/src/java"/>
+	<property name="unit-test.dir" value="${basedir}/test/unit"/>
+  <property name="dojo.root.dir" value="${basedir}/src/dojo" />
+  <property name="dojo.src.name" value="dojo-1.5.0" />
+  <property name="dojo.src.dir" value="${dojo.root.dir}/${dojo.src.name}" />
+
+	<target name="ivy-settings" description="Uses global Ivy settings file for things such as resolver chains, common properties, etc. ">
+		<echo message="location of ivy settings for ${ant.project.name} : ${ivy.settings.location}" />
+		<ivy:settings file="${ivy.settings.location}" />
+	</target>
+
+	<target name="pre-clean" description="Deletes subproject's classes and other target directories which should not exist before starting the build ">
+		<delete dir="${local.target.dir}" />
+	</target>
+
+	<target name="init" depends="pre-clean" description="Creates subproject's local transient directories ">
+		<mkdir dir="${local.target.dir}"/>
+	</target>
+
+	<target name="compile" depends="init, ivy-settings" description="Compile the classes in the WEB-INF/classes">
+		<ivy:retrieve conf="compile" sync="true" />
+		<property name="webclasses.dir" value="${local.target.dir}/war/WEB-INF/classes" />
+		<mkdir dir="${webclasses.dir}" />
+		<javac srcdir="${src.dir}" destdir="${webclasses.dir}" source="1.6" target="1.6" debug="true">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-uic" includes="calims2*.jar" />
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="Compile and creates the war file">
+		<!-- Creates the WEB-INF/lib and copy the libraries there -->
+		<property name="war.dir" value="${local.target.dir}/war" />
+		<property name="weblib.dir" value="${war.dir}/WEB-INF/lib" />
+		<mkdir dir="${weblib.dir}" />
+		<!-- FIXME
+		<ivy:retrieve conf="runtime" sync="true"/>
+		-->
+		<copy todir="${weblib.dir}">
+			<fileset dir="${basedir}/lib">
+				<exclude name="*source*" />
+				<exclude name="*javax.servlet*" />
+			</fileset>
+			<fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+			<fileset dir="${dist.dir}/../calims2-csm" includes="calims2*.jar" />
+			<fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+			<fileset dir="${dist.dir}/../calims2-taglib" includes="calims2*.jar" />
+			<fileset dir="${dist.dir}/../calims2-uic" includes="calims2*.jar" />
+		  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+		  <fileset dir="${basedir}/../calims2-api/src/jar" includes="*.jar" />
+		</copy>
+	 
+		<!-- Copy the resources in classes -->
+		<copy todir="${webclasses.dir}">
+			<fileset dir="${basedir}/src/resources" />
+		</copy>
+	  <copy todir="${war.dir}">
+	    <fileset dir="${basedir}/src/web" >
+	      <exclude name="**/*.xml" />
+	    </fileset>  
+	  </copy>
+		<copy todir="${war.dir}" filtering="true">
+			<fileset dir="${basedir}/src/web" >
+			  <include name="**/*.xml" />
+			</fileset>  
+		  <filterset>
+		    <filter token="tempfiledir" value="${tempfiledir}"/>
+		    <filter token="filesystemrootdir" value="${filesystemrootdir}"/> 
+		    <filter token="application.csmupt.context" value="${application.csmupt.context}"/> 
+		  </filterset>
+		</copy> 
+	  <!-- Executing the dojo build -->
+	  <java classname="org.mozilla.javascript.tools.shell.Main" dir="${dojo.src.dir}/util/buildscripts" fork="true">
+	    <arg value="build.js" />
+	    <arg value="action=clean,release" />
+	    <arg value="cssOptimize=comments.keepLines" />
+	    <arg value="layerOptimize=shrinksafe.keepLines" />
+	    <arg value="optimize=shrinksafe.keepLines" />
+	    <arg value="profileFile=${dojo.root.dir}/profiles/${dojo.profile}" />
+	    <arg value="releaseDir=${war.dir}/static" />
+	    <arg value="releaseName=${dojo.src.name}" />
+	    <classpath>
+	      <pathelement location="${dojo.src.dir}/util/shrinksafe/js.jar"/>
+	      <pathelement location="${dojo.src.dir}/util/shrinksafe/shrinksafe.jar"/>
+	    </classpath>
+	  </java>
+	  <!-- Creation of the war file -->
+		<jar destfile="${dist.dir}/${ant.project.name}.war" basedir="${war.dir}" />
+	</target>
+
+	<target name="test" depends="dist" description="Run the unit test and generate the report">
+		<ivy:retrieve conf="test" sync="true"/>
+
+		<cobertura-instrument datafile="${local.target.dir}/cobertura.ser" todir="${local.target.dir}/instrumented-classes">
+			<fileset dir="${webclasses.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+		</cobertura-instrument>
+
+		<javac srcdir="${unit-test.dir}/java" destdir="${webclasses.dir}" source="1.6" target="1.6" debug="true">
+			<classpath>
+				<fileset dir="${basedir}/lib" includes="*.jar" />
+				<fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-uic" includes="calims2*.jar" />
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+			</classpath>
+		</javac>
+
+		<junit showoutput="true" printsummary="yes" haltonfailure="no" errorProperty="test.error" failureProperty="test.failed" fork="yes" forkmode="perBatch">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${local.target.dir}/cobertura.ser" />
+			<classpath>
+				<fileset dir="${target.dir}/lib/test-cobertura">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${basedir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${dist.dir}/../calims2-api" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-model" includes="calims2*.jar" />
+				<fileset dir="${dist.dir}/../calims2-uic" includes="calims2*.jar" />
+			  <fileset dir="${dist.dir}/../calims2-util" includes="calims2*.jar" />
+				<pathelement location="${local.target.dir}/instrumented-classes" />
+				<pathelement location="${webclasses.dir}" />
+				<pathelement location="${unit-test.dir}/resources" />
+			</classpath>
+
+			<batchtest todir="${unit-test.report.dir}/junit">
+				<formatter type="xml" />
+				<fileset dir="${local.target.dir}/war/WEB-INF/classes" includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+
+		<if>
+			<or>
+				<isset property="test.failed" />
+				<isset property="test.error"/>
+			</or>
+			<then>
+				<propertyfile file="${unit-test.report.dir}/junit/result.properties">
+					<entry key="${ant.project.name}.junit.failed" value="true" />
+				</propertyfile>
+			</then>
+		</if>
+	</target>
+
+	<target name="checkstyle" description="Generates a report of code convention violations.">
+		<checkstyle config="${common.dir}/checkstyle/MoxieCheckstyle.xml" failOnViolation="false">
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+			<fileset dir="${unit-test.dir}/java" includes="**/*.java"/>
+			<fileset dir="${local.target.dir}" includes="**/*.class"/>
+			<formatter type="plain"/>
+			<formatter type="xml" toFile="${checkstyle-test.report.dir}/${ant.project.name}_checkstyle_errors.xml"/>
+		</checkstyle>
+		<xslt taskname="checkstyle"
+	          in="${checkstyle-test.report.dir}/${ant.project.name}_checkstyle_errors.xml"
+	          out="${checkstyle-test.report.dir}/${ant.project.name}-CheckstyleReport.html"
+	          style="${common.dir}/checkstyle/checkstyle-simple.xsl" />
+	</target>
+
+	<target name="pmd">
+		<pmd shortFilenames="true">
+			<ruleset>rulesets/favorites.xml</ruleset>
+			<formatter type="html" toFile="${pmd-test.report.dir}/${ant.project.name}-PMDReport.html" linkPrefix="http://pmd.sourceforge.net/xref/"/>
+			<fileset dir="${src.dir}" includes="**/*.java"/>
+			<fileset dir="${unit-test.dir}/java" includes="**/*.java"/>
+		</pmd>
+	</target>
+
+</project>

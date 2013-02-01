@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<security-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <upt-context-name>csmupt</upt-context-name>
+  <application-list>
+    <application>
+      <context-name>@application.csmupt.context@</context-name>
+      <authentication>
+        <authentication-provider-class/>
+        <lockout-time>6000</lockout-time>
+        <allowed-login-time>6000</allowed-login-time>
+        <allowed-attempts>3</allowed-attempts>
+      </authentication>
+      <authorization>
+        <authorization-provider-class/>
+        <hibernate-config-file>@jboss.home@/server/@jboss.server.name@/deploy/calims2-csm/csm42.hibernate.cfg.xml</hibernate-config-file>
+      </authorization>
+    </application>
+  </application-list>
+</security-config>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+             xs:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <itemDefinition id="_testVariableItem" structureRef="String" />
+  <itemDefinition id="_term1Item" structureRef="java.lang.Long" />
+  <itemDefinition id="_term2Item" structureRef="java.lang.Long" />
+  <itemDefinition id="_finalResultItem" structureRef="java.lang.Long" />
+
+  <process processType="Private" isExecutable="true" id="com.sample.bpmn.sample5" name="Hello World" >
+
+    <!-- process variables -->
+    <property id="testVariable" itemSubjectRef="_testVariableItem"/>
+    <property id="term1" itemSubjectRef="_term1Item"/>
+    <property id="term2" itemSubjectRef="_term2Item"/>
+    <property id="finalResult" itemSubjectRef="_finalResultItem"/>
+
+    <!-- nodes -->
+    <startEvent id="_1" name="StartProcess" />
+    <scriptTask id="_2" name="Hello" >
+      <script>
+        System.out.println("Hello World" + Thread.currentThread().getId());
+        String testVariable = kcontext.getVariable("testVariable");
+        System.out.println("testVariable = " + testVariable);
+      </script>
+    </scriptTask>
+    <endEvent id="_3" name="EndProcess" />
+    <intermediateCatchEvent id="_4" name="Timer" >
+      <timerEventDefinition>
+        <timeCycle>10000</timeCycle>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <scriptTask id="_5" name="Hello2" >
+      <script></script>
+    </scriptTask>
+    <task id="_6" name="Test Work Item" tns:taskName="TestWorkItem" >
+      <ioSpecification>
+        <dataInput id="_6_messageInput" name="message" />
+        <dataInput id="_6_term1Input" name="term1" />
+        <dataInput id="_6_term2Input" name="term2" />
+        <dataOutput id="_6_resultOutput" name="result" />
+        <inputSet>
+          <dataInputRefs>_6_messageInput</dataInputRefs>
+          <dataInputRefs>_6_term1Input</dataInputRefs>
+          <dataInputRefs>_6_term2Input</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_6_resultOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>testVariable</sourceRef>
+        <targetRef>_6_messageInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>term1</sourceRef>
+        <targetRef>_6_term1Input</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>term2</sourceRef>
+        <targetRef>_6_term2Input</targetRef>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_6_resultOutput</sourceRef>
+        <targetRef>finalResult</targetRef>
+      </dataOutputAssociation>
+    </task>
+    <scriptTask id="_7" name="Hello3" scriptFormat="http://www.java.com/java" >
+      <script>System.out.println(kcontext.getVariable("finalResult"));</script>
+    </scriptTask>
+    <scriptTask id="_9" name="Hello4" scriptFormat="http://www.java.com/java" >
+      <script>System.out.println("Hello 4");</script>
+    </scriptTask>
+    <callActivity id="_10" name="Sample 1" calledElement="com.sample.bpmn.sample1" >
+      <ioSpecification>
+        <dataInput id="_10_testVariableInput" name="testVariable" />
+        <inputSet>
+          <dataInputRefs>_10_testVariableInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>testVariable</sourceRef>
+        <targetRef>_10_testVariableInput</targetRef>
+      </dataInputAssociation>
+    </callActivity>
+
+    <!-- connections -->
+    <sequenceFlow id="_1-_2" sourceRef="_1" targetRef="_2" />
+    <sequenceFlow id="_9-_3" sourceRef="_9" targetRef="_3" />
+    <sequenceFlow id="_2-_4" sourceRef="_2" targetRef="_4" />
+    <sequenceFlow id="_4-_5" sourceRef="_4" targetRef="_5" />
+    <sequenceFlow id="_5-_6" sourceRef="_5" targetRef="_6" />
+    <sequenceFlow id="_6-_7" sourceRef="_6" targetRef="_7" />
+    <sequenceFlow id="_10-_9" sourceRef="_10" targetRef="_9" />
+    <sequenceFlow id="_7-_10" sourceRef="_7" targetRef="_10" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="com.sample.bpmn.sample5" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="16" y="16" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_2" >
+        <dc:Bounds x="96" y="16" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" >
+        <dc:Bounds x="690" y="129" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_4" >
+        <dc:Bounds x="232" y="16" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_5" >
+        <dc:Bounds x="360" y="16" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_6" >
+        <dc:Bounds x="509" y="18" width="100" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_7" >
+        <dc:Bounds x="667" y="18" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_9" >
+        <dc:Bounds x="826" y="132" width="80" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_10" >
+        <dc:Bounds x="798" y="20" width="110" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_1-_2" >
+        <di:waypoint x="40" y="40" />
+        <di:waypoint x="136" y="40" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_9-_3" >
+        <di:waypoint x="866" y="156" />
+        <di:waypoint x="714" y="153" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2-_4" >
+        <di:waypoint x="136" y="40" />
+        <di:waypoint x="256" y="40" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4-_5" >
+        <di:waypoint x="256" y="40" />
+        <di:waypoint x="400" y="40" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_5-_6" >
+        <di:waypoint x="400" y="40" />
+        <di:waypoint x="559" y="42" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6-_7" >
+        <di:waypoint x="559" y="42" />
+        <di:waypoint x="707" y="42" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_10-_9" >
+        <di:waypoint x="853" y="44" />
+        <di:waypoint x="866" y="156" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_7-_10" >
+        <di:waypoint x="707" y="42" />
+        <di:waypoint x="853" y="44" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>

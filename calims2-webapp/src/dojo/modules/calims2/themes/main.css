@@ -1,0 +1,9 @@
+/*
+  Adds cosmetic styling to the application and imports all the style sheets.  
+*/
+@import url("layout.css");
+@import url("style.css");
+@import url("inventory/specimenTransfer.css");
+@import url("inventory/layout/ContainerGrid.css");
+@import url("inventory/specimen/TransferGrid.css");
+@import url("report/querytable.css");

@@ -1,0 +1,48 @@
+Steps to recreate the calims2 database locally using Jenny Kelly's data:
+
+Before running this you need to remove the constraints from the bottom half of the hibernate-postgres.ddl script and add them to the 
+bottom of the calims2_local10292010 script.  This will allow the script to install the records before applying constraints.
+
+1. dropdb -U postgres csmupt1
+
+2. createdb -U postgres csmupt1
+
+3. psql -U dbadmin -f /Users/connollym/ews/calims2/software/calims2-model/db/db-install/postgresql/hibernate-postgres.ddl csmupt1
+
+4. psql -U dbadmin -f /Users/connollym/ews/calims2/software/calims2-model/db/db-install/postgresql/auth-schema-postgres.sql csmupt1
+
+5. psql -U dbadmin -f /Users/connollym/ews/calims2/software/calims2-model/db/db-install/postgresql/demoscript/calims2_local10292010.sql csmupt1 
+
+
+
+
+Steps to push a caLIMS2 tag to QA. NOTE: The sql files being edited exist in the db-upgrade/postgresql directory not the db-install directory.
+
+1. Check out the tag.
+
+2. Get a data dump from QA using the following command:
+
+       pg_dump -h cbdb-d2001.nci.nih.gov -p 5456 -U calimsdev -f jennyData-Oct30-355PM.dmp --column-inserts calims
+
+3. Check for any structural differences in the qa database that would cause the sql insert statements to fail. Adjust accordingly.
+       
+4. Edit the data dump removing any insert statements beginning with csm_ . (These inserts are taken care of by the auth-schema-postgres.sql file which
+you will run next).
+
+5. Remove all contents of the type-priming-postgres.sql file in the db-upgrade/postgres directory of your calims2 checkout.
+
+6. Delete all inserts from the auth-priming-postgres.sql starting with the first insert after the csm_* inserts.
+
+7. copy the contents of the jennyData-Oct30-355PM.dmp to the auth-pringing-postgres.sql file.
+
+8. cut the add constraint sql statements from the second half of the hibernate-postgres.sql file and paste them to the end of the auth-priminging-postgres.sql
+file.
+
+9. make sure that 'create sequence hibernate_sequence;' remains as the last statement of the hibernate-postgres.ddl file.
+
+10. Add 'alter sequence hibernate_sequence restart with 100500;' at the end of the auth-priming-postgres.sql file. The sequence number should be create
+than the id of the largest id used in the insert script.
+
+11. Run this command:
+ant -Dproperties.file=/Users/connollym/ews/C2I2Demo/software/build/qa-upgrade.properties deploy:remote:upgrade  -Denable.install.debug=true
+

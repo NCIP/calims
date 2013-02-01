@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/jee 
+        http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd 
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        >
+        
+  <bean id="documentService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.common.Document." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <bean class="gov.nih.nci.calims2.business.common.document.DocumentCRUDEventListener">
+              <property name="privilegeEvaluator" ref="privilegeEvaluator" />
+              <property name="storageService" ref="storageService" />
+            </bean>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.common.document.DocumentValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>  
+  
+  <bean id="externalIdentifierService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.common.ExternalIdentifier." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.common.externalidentifier.ExternalIdentifierValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>  
+  
+  <bean id="typeService" class="gov.nih.nci.calims2.business.generic.GenericServiceImpl">
+    <property name="allowedQueryNamePrefix" value="gov.nih.nci.calims2.domain.common.Type." />
+    <property name="crudEventListener">
+      <bean class="gov.nih.nci.calims2.business.generic.CompositeCRUDEventListener">
+        <property name="listeners">
+          <list>
+            <ref bean="auditableCRUDEventListener"/>
+          </list>
+        </property> 
+      </bean>
+    </property>
+    <property name="genericDao" ref="genericDao" />
+    <property name="validator">
+      <bean class="gov.nih.nci.calims2.business.common.type.TypeValidator">
+        <property name="validatorFactory" ref="validatorFactory"/>
+      </bean>
+    </property>
+  </bean>
+   
+</beans>        

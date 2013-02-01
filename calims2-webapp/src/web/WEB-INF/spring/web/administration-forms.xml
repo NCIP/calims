@@ -1,0 +1,1549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+   
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="accountFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="accountForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status"  p:options="accountStatuses" p:required="true" p:selected="form.entity.status"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId"  p:required="true" p:properties="id:id,label:name" p:options="types" p:selected="form.entity.type" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="startDate" p:required="true" p:name="entity.startDate" p:value="form.entity.startDate"/>  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="endDate" p:required="true" p:name="entity.endDate" p:value="form.entity.endDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="laboratories" p:required="true" p:name="laboratoryId" p:properties="id:id,label:name" p:options="laboratories" p:selected="form.entity.laboratory" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="organizations" p:required="true" p:name="organizationId" p:properties="id:id,label:name" p:options="organizations" p:selected="form.entity.organization" />        
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                </list>
+              </property>
+            </bean> 
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/account/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/account/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/account/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLaboratory" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/account/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/account/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/account/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/account/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/account/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property> 
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="accountNumberFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="accountNumberForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:required="true" p:options="accountNumberStatuses" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId"  p:required="true" p:properties="id:id,label:name" p:options="types" p:selected="form.entity.type" />   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="startDate" p:name="entity.startDate" p:required="true" p:value="form.entity.startDate"/>  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="endDate" p:name="entity.endDate" p:required="true" p:value="form.entity.endDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="value" p:name="entity.value" p:required="true" p:value="form.entity.value" p:min="0" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />          
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/accountnumber/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/accountnumber/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/customerservice/accountnumber/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/accountnumber/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/accountnumber/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+   <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="baseUnitFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="baseUnitForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId"  p:required="true" p:properties="id:id,label:name" p:options="types" p:selected="form.entity.type" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/baseunit/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/baseunit/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/baseunit/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/baseunit/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/baseunit/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/baseunit/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property> 
+  </bean>
+   
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="billingInformationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="billingInformationForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="billingInformationStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:required="true"  p:properties="id:id,label:name" p:options="types" p:selected="form.entity.type"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="date" p:name="entity.date" p:value="form.entity.date"/>  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/billinginformation/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/billinginformation/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/billinginformation/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/billinginformation/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/billinginformation/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/billinginformation/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="collaborationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="collaborationForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="collaborationStatuses" p:required="true" p:selected="form.entity.status" />    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />         
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:required="true" p:labelProperty="name" p:multiple="true" p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>  
+               <!--   <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="roles"     p:name="roleId"     p:idProperty="id" p:labelProperty="name" p:options="roles" p:selected="form.entity.role" p:optionCreatorCallback="roleCallback" p:selectKey="roleSelectKey"/>      -->
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="persons" p:name="personIds" p:idProperty="id" p:required="true" p:labelProperty="familyName" p:multiple="true" p:options="persons" p:selected="form.entity.personCollection" p:optionCreatorCallback="personCallback" p:selectKey="personSelectKey"/>         
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="laboratories"  p:name="laboratoryIds"  p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="laboratories" p:selected="form.entity.laboratoryCollection" p:optionCreatorCallback="nameCallback" p:selectKey="laboratorySelectKey"/>  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/collaboration/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/collaboration/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/collaboration/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLaboratory" p:selector="edit" p:type="submit" p:url="/administration/collaboration/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/collaboration/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/collaboration/call.do?subFlowId=3" />
+     <!--   <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRole" p:selector="edit" p:type="submit" p:url="/administration/collaboration/call.do?subFlowId=4" />-->
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/collaboration/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/collaboration/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/collaboration/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="contactInformationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="contactInformationForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="contactInformationStatuses" p:required="true" p:selected="form.entity.status" />   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types" p:selected="form.entity.type" />          
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="rank" p:name="entity.rank" p:required="true" p:value="form.entity.rank" p:min="0" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="URI" p:name="entity.URI" p:value="form.entity.URI" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="emailAddress" p:name="entity.emailAddress" p:required="true" p:value="form.entity.emailAddress" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/contactinformation/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/contactinformation/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/contactinformation/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/contactinformation/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/contactinformation/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="contractFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="contractForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>                      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="contractStatuses" p:required="true" p:selected="form.entity.status" />           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                     
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/contract/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/contract/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/contract/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/contract/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/contract/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>   
+
+  <bean class="gov.nih.nci.calims2.ui.administration.customerservice.customerrequest.CustomerRequestFormDecorator" id="customerRequestFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="customerRequestForm" p:script="editCustomScript">
+        <property name="children">
+          <list> 
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />                   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />         
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="customerRequestStatuses" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name" p:required="true"  p:options="types" p:selected="form.entity.type" />                                                               
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="persons" p:name="personId" p:optionCreatorCallback="personCallback" p:options="persons" p:selected="form.entity.customerName" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="quantities" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="accounts"  p:name="accountId"  p:properties="id:id,label:name" p:options="accounts" p:optionCreatorCallback="accountCallback" p:selected="form.entity.customerAccount" />    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="submissionDate" p:name="entity.submissionDate" p:value="form.entity.submissionDate"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="expirationDate" p:name="entity.expirationDate" p:value="form.entity.expirationDate"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="laboratoryFinalApproveDate" p:name="entity.laboratoryFinalApproveDate" p:value="form.entity.laboratoryFinalApproveDate"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="completedDate" p:name="entity.completedDate" p:value="form.entity.completedDate"/>  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />      
+                </list>
+              </property>
+              </bean> 
+              <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+                <property name="children">
+                  <list>
+                    <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                  </list>
+                </property>
+              </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/customerrequest/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/customerrequest/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/customerrequest/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createAccount" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/customerrequest/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/customerrequest/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/customerrequest/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/customerrequest/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/customerrequest/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>   
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="equipmentFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">  
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="equipmentForm" p:script="editCustomScript" p:validateFunction="validateEquipment">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="equipmentStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="model" p:name="entity.model" p:required="true" p:value="form.entity.model"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="propertyId" p:name="entity.propertyId" p:value="form.entity.propertyId"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="serialNumber" p:name="entity.serialNumber" p:required="true" p:value="form.entity.serialNumber"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="laboratory" p:name="laboratoryId" p:properties="id:id,label:name" p:options="laboratories" p:required="true" p:selected="form.entity.laboratory" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="persons" p:name="personIds" p:required="true" p:idProperty="id" p:labelProperty="familyName" p:multiple="true" p:options="persons" p:selected="form.entity.personCollection" p:optionCreatorCallback="personCallback" p:selectKey="personSelectKey"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="locations" p:name="locationId" p:properties="id:id,label:name"  p:options="locations" p:selected="form.entity.location" />  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="softwares" p:name="softwareIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="softwares" p:selected="form.entity.softwareCollection" p:optionCreatorCallback="nameCallback" p:selectKey="softwareSelectKey"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:required="true" p:properties="id:id,label:name" p:options="types" p:selected="form.entity.type" />            
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                              
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/equipment/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/equipment/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLaboratory" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=5" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createSoftware" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=4" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/equipment/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/equipment/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/equipment/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="invoiceFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="invoiceForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="status" p:collectionType="ENUMERATIONS" p:name="status" p:options="invoiceStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types" p:selected="form.entity.type" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="invoiceDate" p:name="entity.invoiceDate" p:value="form.entity.invoiceDate"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="invoicePaymentDate" p:name="entity.invoicePaymentDate" p:value="form.entity.invoicePaymentDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="customerRequests" p:name="customerRequestId" p:properties="id:id,label:name" p:options="customerRequests" p:selected="form.entity.customerRequestCollection" />  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>  
+             <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/invoice/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/invoice/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createCustomerRequest" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/invoice/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/invoice/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/invoice/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/invoice/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/invoice/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>  
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="laboratoryFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="laboratoryForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="laboratoryStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="persons" p:name="personIds" p:idProperty="id" p:labelProperty="familyName" p:multiple="true" p:options="persons" p:selected="form.entity.personCollection" p:optionCreatorCallback="personCallback" p:selectKey="personSelectKey"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="locations" p:name="locationId" p:properties="id:id,label:name" p:options="locations"     p:selected="form.entity.location" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:labelProperty="name" p:multiple="true"  p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="roles" p:name="roleIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="roles" p:selected="form.entity.roleCollection" p:optionCreatorCallback="nameCallback" p:selectKey="roleSelectKey"/>                           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                                
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/laboratory/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/laboratory/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/laboratory/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/laboratory/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/laboratory/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRole" p:selector="edit" p:type="submit" p:url="/administration/laboratory/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/laboratory/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/laboratory/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/laboratory/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="locationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="locationForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="value" p:name="entity.value" p:required="true" p:value="form.entity.value"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="locationStatuses" p:required="true" p:selected="form.entity.status" />   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types"  p:selected="form.entity.type" />                                                                                                                        
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="parentlocations" p:name="parentLocationId" p:properties="id:id,label:name" p:options="parentLocations" p:selected="form.entity.parentLocation" />               
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                               
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/location/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/location/cancelSave.do" />
+             <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/location/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/location/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/location/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/location/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/location/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="namingConventionFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="namingConventionForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>          
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="namingConventionStatuses" p:required="true" p:selected="form.entity.status" />    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="type" p:properties="id:id,label:name" p:required="true" p:options="namingConventionTypes" p:selected="form.entity.type" />           
+                 
+                  <!-- 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="grouping" p:name="entity.grouping" p:value="form.entity.grouping"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="isMandatory" p:name="entity.isMandatory" p:pattern="true|false|" p:value="form.entity.isMandatory"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="isSuggested" p:name="entity.isSuggested" p:pattern="true|false|" p:value="form.entity.isSuggested"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="isUnique" p:name="entity.isUnique" p:pattern="true|false|" p:value="form.entity.isUnique"/>
+                 -->
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="maximumLength" p:name="entity.maximumLength" p:value="form.entity.maximumLength" p:min="0" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="example" p:name="entity.example" p:value="form.entity.example"/>    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="laboratories" p:name="laboratoryId" p:properties="id:id,label:name"  p:options="laboratories" p:selected="form.entity.laboratory" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="persons"      p:name="personId"  p:optionCreatorCallback="personCallback" p:options="persons" p:selected="form.entity.contactPerson" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>              
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/namingconvention/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/namingconvention/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLaboratory" p:selector="edit" p:type="submit" p:url="/administration/namingconvention/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/namingconvention/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/namingconvention/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/namingconvention/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/namingconvention/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>      
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+      
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="organizationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="organizationForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>                                             
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="organizationStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="DUNSNumber" p:name="entity.DUNSNumber" p:value="form.entity.DUNSNumber"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="identifierNumber" p:name="entity.identifierNumber" p:value="form.entity.identifierNumber"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="legalCategoryType" p:name="entity.legalCategoryType" p:value="form.entity.legalCategoryType"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="taxIdentifierNumber" p:name="entity.taxIdentifierNumber" p:value="form.entity.taxIdentifierNumber"/>                                
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CheckBoxField" p:id="isTaxExempt" p:name="entity.isTaxExempt" p:value="form.entity.isTaxExempt"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="parentorganizations" p:name="parentOrganizationId" p:properties="id:id,label:name" p:options="parentOrganizations" p:selected="form.entity.parentOrganization" />               
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="locations" p:name="locationId" p:properties="id:id,label:name" p:options="locations" p:selected="form.entity.location" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="roles" p:name="roleIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="roles" p:selected="form.entity.roleCollection" p:optionCreatorCallback="nameCallback" p:selectKey="roleSelectKey"/>       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                           
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/organization/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/organization/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/organization/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRole" p:selector="edit" p:type="submit" p:url="/administration/organization/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/organization/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/organization/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/organization/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/organization/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/organization/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="personFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="personForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="title" p:name="entity.title" p:value="form.entity.title" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="familyName" p:invalidMessage="true" p:name="entity.familyName" p:required="true" p:value="form.entity.familyName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="givenName" p:name="entity.givenName" p:required="true" p:value="form.entity.givenName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="middleName" p:name="entity.middleName" p:value="form.entity.middleName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="userName" p:name="entity.userName" p:value="form.entity.userName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="personStatuses" p:required="true" p:selected="form.entity.status" />           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="academicDegree" p:name="entity.academicDegree" p:required="true" p:value="form.entity.academicDegree" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="certification" p:name="entity.certification" p:value="form.entity.certification" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="clinicalLicense" p:name="entity.clinicalLicense" p:value="form.entity.clinicalLicense" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="individualGeneologySuffix" p:name="entity.individualGeneologySuffix" p:value="form.entity.individualGeneologySuffix" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="maidenName" p:name="entity.maidenName" p:value="form.entity.maidenName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="namePrefix" p:name="entity.namePrefix" p:value="form.entity.namePrefix" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="suffix" p:name="entity.suffix" p:value="form.entity.suffix" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:required="true" p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="roles" p:name="roleIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="roles" p:selected="form.entity.roleCollection" p:optionCreatorCallback="nameCallback" p:selectKey="roleSelectKey"/>                                
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>            
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/person/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/person/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/person/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRole" p:selector="edit" p:type="submit" p:url="/administration/person/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/person/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/person/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/person/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="postalAddressFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="postalAddressForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="postalAddressStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />                   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="mailStopCode" p:name="entity.mailStopCode" p:value="form.entity.mailStopCode"/>                                  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="postOfficeBoxNumber" p:name="entity.postOfficeBoxNumber" p:value="form.entity.postOfficeBoxNumber"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="firstAddressLine" p:required="true" p:name="entity.firstAddressLine" p:value="form.entity.firstAddressLine"/>                   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="secondAddressLine" p:name="entity.secondAddressLine" p:value="form.entity.secondAddressLine"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="addressStreetPostDirectionalType" p:name="entity.addressStreetPostDirectionalType" p:value="form.entity.addressStreetPostDirectionalType"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="addressStreetPreDirectionalType" p:name="entity.addressStreetPreDirectionalType" p:value="form.entity.addressStreetPreDirectionalType"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="city" p:required="true" p:name="entity.city" p:value="form.entity.city"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="county" p:name="entity.county" p:value="form.entity.county"/>         
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="state" p:required="true" p:name="entity.state" p:value="form.entity.state"/>                 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="postalCode" p:required="true" p:name="entity.postalCode" p:value="form.entity.postalCode"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="country" p:name="entity.country" p:value="form.entity.country"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />      
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>      
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/postaladdress/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/postaladdress/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/postaladdress/call.do?subFlowId=0" />            
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/postaladdress/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/postaladdress/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="quotationFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="quotationForm" p:script="editCustomScript" p:validateFunction="validateQuotation">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="quotationStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId"  p:properties="id:id,label:name" p:required="true"   p:options="types" p:selected="form.entity.type" />       
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="approvalDate" p:name="entity.approvalDate" p:value="form.entity.approvalDate"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="expirationDate" p:name="entity.expirationDate" p:value="form.entity.expirationDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="quantities" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="rates" p:name="rateId" p:properties="id:id,label:name" p:options="rates" p:selected="form.entity.rate" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/quotation/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/quotation/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRate" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/quotation/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/quotation/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/quotation/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/quotation/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/quotation/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="rateFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="rateForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="rateStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="quantities" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types" p:selected="form.entity.type" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="persons" p:name="personId" p:optionCreatorCallback="personCallback"  p:options="persons" p:selected="form.entity.contactPerson" />                            
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean> 
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+							<property name="children">
+								<list>
+									<bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes"/>
+								</list>
+							</property>
+						</bean>
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/rate/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/rate/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/rate/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/rate/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/rate/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/rate/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/rate/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.administration.role.RoleFormDecorator" id="roleFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="roleForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>                                  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="roleStatuses" p:required="true" p:selected="form.entity.status"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="types" p:name="type" p:required="true" p:options="roleTypes" p:selected="form.entity.type" />           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/role/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/role/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/role/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/role/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/role/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>   
+    
+  <bean class="gov.nih.nci.calims2.ui.administration.customerservice.service.ServiceFormDecorator" id="serviceFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="serviceForm" p:script="editCustomScript" >
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="serviceStatuses" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />                      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>  
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/service/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/service/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/service/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/customerservice/service/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/service/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/service/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="customerRequestId" p:value="form.entity.customerRequest.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="customerRequestCustomerMode" p:value="customerRequestCustomerMode" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.administration.customerservice.serviceitem.ServiceItemFormDecorator" id="serviceItemFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="serviceItemForm" p:script="editCustomScript">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="serviceItemStatuses" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />                        
+                  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="quantity" p:name="quantity" p:required="true" p:value="form.entity.quantity.value" p:min="0" />
+                
+        <!--      <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="quantities" /> -->  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="rates" p:name="rateId" p:properties="rate:quantity.value,unit:quantity.standardUnit.name" p:options="rates" p:optionCreatorCallback="rateCallback" p:selected="form.entity.serviceItemRate" p:useDataStore="true" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="subtotal" p:name="subtotal" p:value="" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="startDate" p:name="entity.startDate" p:value="form.entity.startDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="endDate" p:name="entity.endDate" p:value="form.entity.endDate"/>    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="specimenType" p:name="specimenType" p:required="true" p:options="specimenTypes" p:selected="form.entity.specimenType" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="accountNumbers" p:name="accountNumberIds" p:idProperty="id" p:required="true" p:labelProperty="name" p:multiple="true" p:options="accountNumbers" p:selected="form.entity.accountNumberCollection" p:optionCreatorCallback="nameCallback" p:selectKey="accountNumberSelectKey"/>              
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" /> 
+                </list>
+              </property>
+            </bean>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+							<property name="children">
+								<list>
+									<bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes"/>
+								</list>
+							</property>
+						</bean>
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/customerservice/serviceitem/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/customerservice/serviceitem/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createRate" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/serviceitem/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/customerservice/serviceitem/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/customerservice/serviceitem/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/customerservice/serviceitem/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:id="customerRequestCustomerMode" p:name="customerRequestCustomerMode" p:value="customerRequestCustomerMode" />
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean> 
+ 
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="softwareFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="softwareForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="softwareStatuses" p:required="true" p:selected="form.entity.status" />  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name" p:required="true" p:options="types" p:selected="form.entity.type" />                             
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="version" p:required="true" p:name="entity.version" p:value="form.entity.version"/>        
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="serialNumber" p:required="true" p:name="entity.serialNumber" p:value="form.entity.serialNumber"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" /> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="operatingSystem" p:required="true" p:name="entity.operatingSystem" p:value="form.entity.operatingSystem"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateField" p:id="expirationDate" p:name="entity.expirationDate" p:value="form.entity.expirationDate"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="numberOfUsers" p:name="entity.numberOfUsers" p:value="form.entity.numberOfUsers" p:min="0" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>  
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="notes">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.CustomField" p:customSelector="notes" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/software/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/software/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:tab="main" p:type="submit" p:url="/administration/software/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/software/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/software/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/software/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>  
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="standardUnitFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="standardUnitForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type"  />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="baseunits" p:name="baseUnitId" p:properties="id:id,label:name"   p:required="true" p:options="baseunits" p:selected="form.entity.baseUnit"  />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="conversionFactor" p:name="entity.conversionFactor" p:value="form.entity.conversionFactor" p:pattern="#.##########"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="offsetValue" p:name="entity.offsetValue" p:value="form.entity.offsetValue" p:pattern="#.##########"/>
+                 
+                 <!--   <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="dataSource" p:name="entity.dataSource" p:value="form.entity.dataSource" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="dataTarget" p:name="entity.dataTarget" p:value="form.entity.dataTarget" />-->
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                </list>
+              </property>
+            </bean>      
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/standardunit/save.do" p:validate="true" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/standardunit/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/standardunit/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createBaseUnit" p:selector="edit" p:type="submit" p:url="/administration/standardunit/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/standardunit/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/standardunit/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/standardunit/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id" />
+          </list>
+        </property>
+      </bean>
+    </property> 
+  </bean>
+  
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="storageDeviceFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="storageDeviceForm" p:script="editCustomScript" p:validateFunction="validateStorageDevice">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="equipmentStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="model" p:name="entity.model" p:required="true" p:value="form.entity.model"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="serialNumber" p:name="entity.serialNumber" p:required="true" p:value="form.entity.serialNumber"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types" p:selected="form.entity.type" />                   
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="laboratory" p:name="laboratoryId" p:properties="id:id,label:name" p:options="laboratories" p:required="true" p:selected="form.entity.laboratory" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="persons" p:name="personIds" p:idProperty="id" p:labelProperty="familyName" p:multiple="true" p:options="persons" p:selected="form.entity.personCollection" p:optionCreatorCallback="personCallback" p:selectKey="personSelectKey"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="locations" p:name="locationId" p:properties="id:id,label:name" p:options="locations" p:selected="form.entity.location" />  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="softwares" p:name="softwareIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="softwares" p:selected="form.entity.softwareCollection" p:optionCreatorCallback="nameCallback" p:selectKey="softwareSelectKey"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="storageSpaces" p:name="storageSpaceIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="storageSpaces" p:selected="form.entity.storageSpaceCollection" p:optionCreatorCallback="nameCallback" p:selectKey="storageSpaceSelectKey"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                             
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLaboratory" p:selector="edit" p:type="submit" p:url="/administration/equipment/call.do?subFlowId=5" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createSoftware" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createStorageSpace" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=7" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/storagedevice/call.do?subFlowId=4" /> 
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/storagedevice/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/storagedevice/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/storagedevice/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean> 
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="storageSpaceFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="storageSpaceForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>                 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="storageSpaceStatuses" p:required="true" p:selected="form.entity.status" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true" p:options="types" p:selected="form.entity.type"/>                           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="layouts" p:name="layoutId" p:properties="id:id,label:name" p:options="layouts" p:selected="form.entity.layout" />                           
+                 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="locations" p:name="locationId" p:properties="id:id,label:name" p:required="true"  p:options="locations" p:selected="form.entity.internalLocation" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="persons" p:name="personId" p:optionCreatorCallback="personCallback" p:required="true" p:options="persons" p:selected="form.entity.contactPerson" />      
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="organizations" p:name="organizationIds" p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="organizations" p:selected="form.entity.organizationCollection" p:optionCreatorCallback="nameCallback" p:selectKey="organizationSelectKey"/>      
+                  <!--  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="electronicDocuments"  p:name="electronicDocumentIds"  p:idProperty="id" p:labelProperty="name" p:multiple="true" p:options="electronicDocuments" p:selected="form.entity.manualCollection" />  -->
+                  <!--  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SelectField" p:id="layouts"  p:name="layoutId"  p:idProperty="id" p:labelProperty="name" p:options="layouts" p:selected="form.entity.layout" />  -->          
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                        
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/storagespace/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/storagespace/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createOrganization" p:selector="edit" p:type="submit" p:url="/administration/storagespace/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLocation" p:selector="edit" p:type="submit" p:url="/administration/storagespace/call.do?subFlowId=1" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createPerson" p:selector="edit" p:type="submit" p:url="/administration/storagespace/call.do?subFlowId=2" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/storagespace/call.do?subFlowId=3" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createLayout" p:selector="edit" p:type="submit" p:url="/administration/storagespace/call.do?subFlowId=4" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/storagespace/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/storagespace/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/storagespace/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean> 
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="telephoneNumberFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="telephoneNumberForm" p:script="editCustomScript">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>                                    
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="telephoneNumberStatuses" p:required="true" p:selected="form.entity.status"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="types" p:name="typeId" p:properties="id:id,label:name"  p:required="true"  p:options="types" p:selected="form.entity.type" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />            
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="rank" p:name="entity.rank" p:required="true" p:value="form.entity.rank"/>           
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="value" p:name="entity.value" p:required="true" p:value="form.entity.value" p:pattern="^(\d{3})[-/ .]?(\d{3})[-/ .]?(\d{4})$"/>              
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="telephoneNumberExtension" p:name="entity.telephoneNumberExtension" p:value="form.entity.telephoneNumberExtension"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>                
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/telephonenumber/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/telephonenumber/cancelSave.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="createType" p:selector="edit" p:type="submit" p:url="/administration/telephonenumber/call.do?subFlowId=0" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/telephonenumber/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/telephonenumber/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>     
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+    
+  <bean class="gov.nih.nci.calims2.ui.generic.crud.CRUDFormDecorator" id="wordFormDecorator">
+    <property name="privilegeEvaluator" ref="privilegeEvaluator"/>
+    <property name="form">
+      <bean class="gov.nih.nci.calims2.uic.descriptor.form.Form" p:id="wordForm">
+        <property name="children">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.FormTab" p:name="main">
+              <property name="children">
+                <list>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="name" p:name="entity.name" p:required="true" p:value="form.entity.name"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="displayName" p:name="entity.displayName" p:required="true" p:value="form.entity.displayName"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextAreaField" p:id="description" p:name="entity.description" p:value="form.entity.description"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:collectionType="ENUMERATIONS" p:id="status" p:name="status" p:options="wordStatuses" p:required="true" p:selected="form.entity.status"/> 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.SingleSelectField" p:id="characterSet" p:name="characterSet" p:options="characterSets" p:properties="id:id,label:name" p:required="true" p:selected="form.entity.characterSet" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="delimiter" p:name="entity.delimiter" p:value="form.entity.delimiter"/>
+                 <!-- 
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="isIncremented" p:name="entity.isIncremented" p:pattern="true|false|" p:value="form.entity.isIncremented"/> 
+                  -->
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="maximumLength" p:name="entity.maximumLength" p:required="true" p:value="form.entity.maximumLength" p:min="0"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="minimumLength" p:name="entity.minimumLength" p:required="true" p:value="form.entity.minimumLength" p:min="0"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.FieldSeparator" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="padCharacter" p:maxLength="1" p:name="entity.padCharacter" p:value="form.entity.padCharacter"/>
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.NumberField" p:id="rank" p:name="entity.rank" p:required="true" p:value="form.entity.rank" p:min="0"/>
+                  
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateModified" p:name="entity.dateModified" p:selector="details" p:value="form.entity.dateModified" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="modifiedBy" p:name="entity.modifiedBy" p:selector="details" p:value="form.entity.modifiedBy" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.DateTimeField" p:id="dateCreated" p:name="entity.dateCreated" p:selector="details" p:value="form.entity.dateCreated" />
+                  <bean class="gov.nih.nci.calims2.uic.descriptor.form.TextField" p:id="createdBy" p:name="entity.createdBy" p:selector="details" p:value="form.entity.createdBy" />
+                </list>
+              </property>
+            </bean>             
+          </list>
+        </property>
+        <property name="commands">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="save" p:selector="edit" p:type="submit" p:url="/administration/word/save.do"  p:validate="true"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="cancel" p:selector="edit" p:type="submit" p:url="/administration/word/cancelSave.do" />
+            
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="manage" p:selector="details" p:type="submit" p:url="/administration/word/manage.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="list" p:selector="details" p:type="submit" p:url="/administration/word/list.do" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.command.Command" p:name="edit" p:selector="details" p:type="submit" p:url="/administration/word/edit.do" />
+          </list>
+        </property>
+        <property name="hiddenFields">
+          <list>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="flowContext" p:value="flowContext" />
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="currentView" p:value="form.currentView"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="returnView" p:selector="edit" p:value="form.returnView"/>      
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="entity.id" p:selector="edit" p:value="form.entity.id"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="editMode" p:selector="edit" p:value="form.editMode"/>
+            <bean class="gov.nih.nci.calims2.uic.descriptor.form.HiddenField" p:name="id" p:value="form.entity.id"/>
+          </list>
+        </property>
+      </bean>
+    </property>  
+  </bean>
+
+</beans>
