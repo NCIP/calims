@@ -27,7 +27,6 @@ You will find more details about caLIMS in the following links:
  * Issue Tracker: https://tracker.nci.nih.gov/browse/CALIMS2
  * Documentation: https://wiki.nci.nih.gov/display/caLIMS2/caLIMS+v2+Project+Documentation
  * Mailing List: NCI-LIMS-CONSORTIUM@LIST.NIH.GOV
- * NCI OSDI: https://wiki.nci.nih.gov/display/caBIGCommunityCode/CBIIT+Open+Source+Development+Initiative
 
 
 Please join us in further developing and improving caLIMS.
