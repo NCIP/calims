@@ -22,7 +22,7 @@
       <exclude org="org.slf4j" />
     </dependency>
     <dependency org="org.slf4j" name="slf4j-api" rev="1.6.0-RC0" conf="compile,test->default"/>
-    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.0-RC0" conf="test->default"/> 
+    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.0-RC0" conf="compile,test->default"/> 
     <dependency org="org.springframework" name="spring-orm" rev="3.0.5.RELEASE" conf="compile->default" /> 
     
     <dependency org="org.drools" name="drools-bam" rev="5.1.1" conf="compile->default"/>

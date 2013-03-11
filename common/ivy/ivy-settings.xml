@@ -10,7 +10,7 @@ There are notes below for sepcial configuraitons.
 -->
 
 <ivysettings>
-	<property name="ivy.project.repo" value="${target.dir}/local-repo-dir"/>
+	<property name="ivy.project.repo" value="${software.dir}/local-ivy-repo"/>
 	<property name="ivy.system.repo" value="${software.dir}/../../system-ivy-repo"/>
 	<property name="ivy.local-enterprise.repo" value="${commonlibrary.dir}/ivy-repo"/>
 	<settings defaultResolver="ncicb-chain" />

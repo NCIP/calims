@@ -61,7 +61,7 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
   <property name="lib.dir" location="${target.dir}/lib" />
   <property name="temp.dir" location="${target.dir}/temp" />
   <property name="reports.dir" location="${target.dir}/reports" />
-  <property name="bda-utils.dir" location="${target.dir}/bda-utils" />
+  <property name="bda-utils.dir" location="${common.dir}/build-utils" />
   <property name="log.dir" location="${target.dir}/logs" />
   <property name="dist.dir" location="${target.dir}/dist" />
   <property name="download.dir" location="${target.dir}/download" />
@@ -204,15 +204,16 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
 	 <mkdir dir="${bda-download.dir}" />
 	<property name="bda-download.src.url" value="https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-download/${bda-download.file}" />
 	<get src="${bda-download.src.url}" dest="${bda-download.dir}/${bda-download.file}" />
-	-->
+	  
   <ant inheritAll="false" inheritRefs="false" antfile="${bda-download.file}" target="retrieve-bda" dir="${bda-download.dir}">
-  	<!--
+-->
+  	<!---->
     <property name="bda.version" value="${bda.version}" />
     <property name="bda-utils.dir" location="${bda-utils.dir}" />
     <property name="lib.dir" location="${lib.dir}" />
     <property name="software.dir" location="${software.dir}" />
     <property name="commonlibrary.dir" location="${commonlibrary.dir}" />
-    -->
+    
     <!-- Use below for old ivy repo -->
     <!--<property name="ivy.settings.file" value="ivy-bda-settings.xml"/>-->
     <!-- Use below for new ivy repo -->
@@ -220,9 +221,10 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
     <property name="ivy.settings.file" value="cbiit-ivy-bda-settings.xml" />
     <property name="target.dir" location="${target.dir}" />
     <property name="local.cbiit-ivy-repo.dir" value="${local.cbiit-ivy-repo.dir}" />
-  	-->
+  	
+ 	
   </ant>
-
+-->
   <!-- Paths -->
   <path id="bda-utils.classpath">
     <fileset dir="${bda-utils.dir}">
@@ -313,9 +315,9 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
       </echoproperties>
     </then>
   </if>
-	<!--
-  <import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
--->
+	<!---->
+  <import file="${bda-utils.dir}/build-utils-${bda.version}.xml" />
+
   <!-- Start logging -->
   <mkdir dir="${log.dir}" />
   <tstamp>

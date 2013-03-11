@@ -56,7 +56,7 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
 
 	<!-- Install Time properties -->
 	<!-- Source and target directories -->
-	<property name="bda-utils.dir" location="${basedir}/bda-utils" />
+	<property name="bda-utils.dir" location="${basedir}/common/build-utils" />
 	<property name="tools.dir" location="${basedir}/${tools.dist.relative.dir}" />
 	<property name="common.dir.src" location="${basedir}/${common.dist.relative.dir}" />
 	<property name="common.dir.dest" location="${working.dir}/${common.dist.relative.dir}" />
@@ -101,7 +101,7 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
 	<taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy" classpathref="bda-utils.classpath"/>
 
 	<!-- Includes-->
-	<import file="${bda-utils.dir}/bda-build-utils-${bda.version}.xml" />
+	<import file="${bda-utils.dir}/build-utils-${bda.version}.xml" />
 
 	<!-- Clean/make working dir -->
 	<delete dir="${working.dir}" failonerror="false"/>
@@ -182,7 +182,7 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
 					/>
 			</then>
 			<else>
-				<!-- else ensure that all ports are set, since these will be removed from install-properties.template we will verify here.  They have to be removed so the validator works with or without the properties or we have to change the format of the file. -->
+				<!-- else ensure that all ports are set, since these will be removed from install.properties.template we will verify here.  They have to be removed so the validator works with or without the properties or we have to change the format of the file. -->
 				<echo message="Using custom JBoss port configurations"/>
 				<if>
 					<equals arg1="${jboss.major.version}" arg2="4"/>
@@ -581,7 +581,7 @@ $HeadURL: https://ncisvn.nci.nih.gov/svn/automation/trunk/software/bda-build-tem
 				<!-- clean up ssl config from systems provided jboss -->
 				<xmltask preservetype="true" source="${jboss.home}/server/${jboss.server.name}/deploy/jbossweb.sar/server.xml"
 					dest="${jboss.home}/server/${jboss.server.name}/deploy/jbossweb.sar/server.xml">
-					<xmlcatalog refid="bda.xml.catalog"/>           
+					<xmlcatalog refid="build.xml.catalog"/>           
 					<remove path="/Server/Service[@name='jboss.web']/Connector[@keystoreFile='${jboss.server.home.dir}/conf/keystore/server.keystore']" />
 				</xmltask>
 				<jboss-configure

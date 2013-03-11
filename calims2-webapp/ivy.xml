@@ -21,7 +21,7 @@
       <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="compile->default"/>
       <dependency org="joda-time" name="joda-time" rev="1.6" conf="compile,runtime->master"/>
       <dependency org="joda-time" name="joda-time-hibernate" rev="1.2" conf="compile,runtime->master" />
-      <dependency org="joda-time" name="joda-time-jsptags" rev="1.0.1" conf="runtime->master" />
+      <dependency org="joda-time" name="joda-time-jsptags" rev="1.0.1" conf="compile,runtime->master" />
       <dependency org="junit" name="junit" rev="4.8.1" conf="test->default" />   
       <dependency org="ncicb" name="csm" rev="4.2" conf="runtime->runtime">
         <exclude org="org.hibernate" module="hibernate" />
@@ -55,7 +55,7 @@
         <exclude org="org.slf4j" />
       </dependency>
       <dependency org="org.slf4j" name="slf4j-api" rev="1.6.0-RC0" conf="compile,test->default"/>
-      <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.0-RC0" conf="test->default"/> 
+      <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.6.0-RC0" conf="compile,test->default"/> 
       <dependency org="org.springframework" name="spring-orm" rev="3.0.5.RELEASE" conf="compile,runtime->default" />
       <dependency org="org.springframework" name="spring-web" rev="3.0.5.RELEASE" conf="compile,runtime->default" />
       <dependency org="org.springframework" name="spring-webmvc" rev="3.0.5.RELEASE" conf="compile,runtime->default" />
@@ -101,7 +101,8 @@
         <exclude org="org.slf4j" />
         <exclude org="log4j" />
       </dependency>
-
+      <dependency org="ncicb" name="clm" rev="4.1" conf="compile,runtime->master" />
+      <dependency org="ncicb" name="csmapi" rev="4.2" conf="compile,runtime->master" />
     </dependencies> 
 </ivy-module>
  

@@ -18,16 +18,16 @@
 	</target>
 
 	<target name="compile" depends="init, ivy-settings" description="description">
-		<!--   FIXME
+		<!--   FIXME-->
 		<ivy:retrieve conf="compile" sync="true" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.6" target="1.6" debug="true">
 			<classpath>
-				<fileset dir="${basedir}/lib" includes="*.jar" />
+			  <fileset dir="${basedir}/lib" includes="*.jar" />		
 			  <fileset dir="${dist.dir}/../calims2-api" includes="calims*.jar" />
 			  <fileset dir="${dist.dir}/../calims2-model" includes="calims*.jar" />
 			</classpath>
 		</javac>
-		-->
+		
 	</target>
 
 	<target name="dist" depends="compile" description="description">
