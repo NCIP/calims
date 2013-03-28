@@ -1,0 +1,9 @@
+<classloading xmlns="urn:jboss:classloading:1.0" 
+              name="calims2-webapp.war" 
+              domain="calims2-webapp.war_domain">
+
+              parent-domain="Ignored"
+ 
+              export-all="NON_EMPTY" 
+              import-all="true"> 
+</classloading>
