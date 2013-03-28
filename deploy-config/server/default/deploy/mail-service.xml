@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: mail-service.xml 62350 2007-04-15 16:50:12Z dimitris@jboss.org $ -->
+<server>
+
+  <!-- ==================================================================== -->
+  <!-- Mail Connection Factory                                              -->
+  <!-- ==================================================================== -->
+
+  <mbean code="org.jboss.mail.MailService"
+         name="jboss:service=Mail">
+    <attribute name="JNDIName">calims2MailSession</attribute>
+    <attribute name="User">moxieinbox@moxieinformatics.com</attribute>
+    <attribute name="Password">Moxie!@#</attribute>
+    <attribute name="Configuration">
+      <!-- A test configuration -->
+      <configuration>
+        <!-- Change to your mail server prototocol -->
+        <property name="mail.store.protocol" value="pop3"/>
+        <property name="mail.transport.protocol" value="smtp"/>
+
+        <!-- Change to the user who will receive mail  -->
+        <property name="mail.user" value="moxieinbox@moxieinformatics.com"/>
+
+        <!-- Change to the mail server  -->
+        <property name="mail.pop3.host" value="pop.gmail.com"/>
+
+        <!-- Change to the SMTP gateway server -->
+        <property name="mail.smtp.host" value="smtp.gmail.com"/>
+        
+        <!-- The mail server port -->
+        <property name="mail.smtp.user" value="moxieinbox@moxieinformatics.com"/>
+        <property name="mail.smtp.password" value="Moxie!@#"/>
+        <property name="mail.smtp.port" value="587"/>
+        <property name="mail.smtp.auth" value="true"/>
+        <property name="mail.smtp.starttls.enable" value="true"/>
+        <!-- <property name="mail.smtp.socketFactory.class" value="javax.net.ssl.SSLSocketFactory"/> -->
+        
+        <!-- Change to the address mail will be from  -->
+        <property name="mail.from" value="moxieinbox@moxieinformatics.com"/>
+
+        <!-- Enable debugging output from the javamail classes -->
+        <property name="mail.debug" value="false"/>
+      </configuration>
+    </attribute>
+    <depends>jboss:service=Naming</depends>
+  </mbean>
+  
+</server>

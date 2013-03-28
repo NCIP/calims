@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- $Id: properties-service.xml 16662 2003-08-27 04:38:22Z patriot1burke $ -->
+<server>
+
+  <!-- ==================================================================== -->
+  <!-- PropertyEditorManager Service                                        -->
+  <!-- ==================================================================== -->
+
+  <!--
+     | Allows access to the PropertyEditorManager, which is used when setting
+     | MBean attribute values from configuration.
+   -->
+
+  <mbean code="org.jboss.varia.property.PropertyEditorManagerService" name="jboss:type=Service,name=PropertyEditorManager">
+
+    <!-- 
+       | Register and editor for each of the type_name=editor_type_name listed
+       | in properties file style convetion.
+
+    <attribute name="Editors">
+      java.net.URL=my.project.editors.URLPropertyEditor
+    </attribute>
+
+    -->
+
+  </mbean>
+
+
+  <!-- ==================================================================== -->
+  <!-- System Properties Service                                            -->
+  <!-- ==================================================================== -->
+
+  <!--
+     | Allows rich access to system properties.
+   -->
+
+  <mbean code="org.jboss.varia.property.SystemPropertiesService" name="jboss:type=Service,name=SystemProperties">
+
+    <!-- 
+       | Load properties from each of the given comma seperated URLs
+
+    <attribute name="URLList">
+      http://somehost/some-location.properties,
+      ./conf/somelocal.properties
+    </attribute>
+
+    -->
+
+    <!-- 
+       | Set raw properties file style properties.
+
+    <attribute name="Properties">
+
+      my.project.property=This is the value of my property
+      my.project.anotherProperty=This is the value of my other property
+
+    </attribute>
+     
+    -->
+
+  <attribute name="Properties">
+								gov.nih.nci.security.configFile=E:/PROJECTS/caLIMS/OSDI_Project/WRK/031813_MahiRepeat/apps/calims2-webapp/jboss-5.1.0.GA-nci/server/default/deploy/calims2-csm/ApplicationSecurityConfig.xml
+    property1=db
+    property2=external
+    property3=E:/PROJECTS/caLIMS/OSDI_Project/WRK/031813_MahiRepeat/apps/calims2-webapp/jboss-5.1.0.GA-nci
+    property4=${tomcat.home}
+    
+							</attribute>
+</mbean>
+
+</server>
