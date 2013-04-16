@@ -1480,6 +1480,7 @@
 								</classpath>
 									drop database if exists @{database.name};
 									drop user if exists @{database.user};
+									CREATE LANGUAGE plpgsql;
 									create database @{database.name};
 									create user @{database.user} with password '@{database.password}';
 									grant all on database @{database.name} to @{database.user};
