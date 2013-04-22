@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L-->
+
 <!DOCTYPE tiles-definitions 
   PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 

@@ -1,3 +1,10 @@
+<!--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L-->
+
 <classloading xmlns="urn:jboss:classloading:1.0" 
               name="calims2-webapp.war" 
               domain="calims2-webapp.war_domain">

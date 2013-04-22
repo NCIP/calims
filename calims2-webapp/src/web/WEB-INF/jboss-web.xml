@@ -1,3 +1,10 @@
+<!--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L-->
+
 <jboss-web>
   <env-entry>
     <env-entry-name>tempfiledir</env-entry-name>

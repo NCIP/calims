@@ -1,3 +1,10 @@
+<%--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L--%>
+
 <form action="/calims2-webapp/hello/example3.do" >
 input 0 <input name="name[0]" type="text"/><br/>
 input 1 <input name="brol" type="text"/><br/>

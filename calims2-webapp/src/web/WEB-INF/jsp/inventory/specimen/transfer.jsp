@@ -1,3 +1,10 @@
+<%--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L--%>
+
 <%@ page import="gov.nih.nci.calims2.ui.generic.crud.CRUDControllerConfig" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>

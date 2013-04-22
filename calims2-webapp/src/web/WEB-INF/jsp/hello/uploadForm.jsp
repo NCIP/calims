@@ -1,3 +1,10 @@
+<%--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L--%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <form:form modelAttribute="uploadItem" method="post" enctype="multipart/form-data" commandName="form" action="/calims2-webapp/hello/uploadForm.do">

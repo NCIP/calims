@@ -1,3 +1,10 @@
+<!--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L-->
+
 <project name="calims2-taglib" default="dist" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="local.target.dir" value="${basedir}/target" />
 	<property name="classes.dir" value="${local.target.dir}/classes" />

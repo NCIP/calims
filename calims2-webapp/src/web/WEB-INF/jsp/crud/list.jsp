@@ -1,3 +1,10 @@
+<%--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L--%>
+
 <%@ page import="org.apache.commons.lang.StringEscapeUtils, 
                  gov.nih.nci.calims2.util.enumeration.I18nEnumeration,
                  gov.nih.nci.calims2.uic.descriptor.ColumnVisibility" %>

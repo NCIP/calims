@@ -1,3 +1,10 @@
+<!--L
+  Copyright Moxie Informatics.
+
+  Distributed under the OSI-approved BSD 3-Clause License.
+  See http://ncip.github.com/calims/LICENSE.txt for details.
+L-->
+
  drop table account                        cascade;
  drop table accountnumber                  cascade;
  drop table adapter                        cascade;
