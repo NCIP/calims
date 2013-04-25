@@ -71,7 +71,7 @@ Submitting Changes
 .. If the project uses an issue tracker, use the next bullet.
    Otherwise, remove the next bullet.  Delete this note either way.
 
-* Update your `tracker` ticket to mark that you have submitted
+* Update your `tracker`_ ticket to mark that you have submitted
   code and are ready for it to be reviewed.
 
   - Include a link to the pull request in the ticket
