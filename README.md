@@ -22,11 +22,11 @@ Please see the NOTICE and LICENSE files for details.
 
 You will find more details about caLIMS in the following links:
 
- * Home Page: https://wiki.nci.nih.gov/display/caLIMS2/
- * Code Repository: https://github.com/NCIP/caLIMS2
- * Issue Tracker: https://tracker.nci.nih.gov/browse/CALIMS2
- * Documentation: https://wiki.nci.nih.gov/display/caLIMS2/caLIMS+v2+Project+Documentation
- * Mailing List: NCI-LIMS-CONSORTIUM@LIST.NIH.GOV
+ * [Community Wiki](https://wiki.nci.nih.gov/display/caLIMS2/)
+ * [Code Repository] (https://github.com/NCIP/caLIMS2)
+ * [Issue Tracker] (https://tracker.nci.nih.gov/browse/CALIMS2)
+ * [Documentation] (https://wiki.nci.nih.gov/display/caLIMS2/caLIMS+v2+Project+Documentation)
+ * [Mailing List] (NCI-LIMS-CONSORTIUM@LIST.NIH.GOV)
 
 
 Please join us in further developing and improving caLIMS.
