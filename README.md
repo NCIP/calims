@@ -26,7 +26,7 @@ You will find more details about caLIMS in the following links:
  * [Code Repository] (https://github.com/NCIP/caLIMS)
  * [Issue Tracker] (https://tracker.nci.nih.gov/browse/CALIMS2)
  * [Documentation] (https://wiki.nci.nih.gov/display/caLIMS2/caLIMS+v2+Project+Documentation)
- * [Mailing List] (NCI-LIMS-CONSORTIUM@LIST.NIH.GOV)
+ * [Mailing List] {mailto: NCI-LIMS-CONSORTIUM@LIST.NIH.GOV}
 
 
 Please join us in further developing and improving caLIMS.
