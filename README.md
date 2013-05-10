@@ -1,10 +1,10 @@
 Welcome to the caLIMS Project!
 ==============================
 
-caLIMS is an Open Source project that provides the functionalities of a
-Laboratory Information Management system.
+caLIMS is an open source project that provides the functionalities of a
+Laboratory Information Management System.
 
-It is written in Java and requires Apache Ant for building.
+It is developed in Java and requires Apache Ant for building.
 
 The purpose of the caLIMS project is to create a Laboratory Information
 Management System (LIMS) that tracks a complete laboratory workflow that uses
@@ -15,7 +15,6 @@ caArray).
 A LIMS is software that is used to promote an accurate flow of sample and
 associated experimental data to and through a laboratory to produce information
 that is used to make conclusions and critical decisions.
-
 
 caLIMS is distributed under the BSD 3-Clause License.
 Please see the NOTICE and LICENSE files for details.
